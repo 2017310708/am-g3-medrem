@@ -1,4 +1,4 @@
-package com.grupo3.memrem;
+package com.grupo3.medrem;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.grupo3.memrem", appContext.getPackageName());
+        assertEquals("com.grupo3.medrem", appContext.getPackageName());
     }
 }

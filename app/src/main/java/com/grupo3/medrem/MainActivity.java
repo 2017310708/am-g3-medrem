@@ -1,4 +1,4 @@
-package com.grupo3.memrem;
+package com.grupo3.medrem;
 
 import android.os.Bundle;
 

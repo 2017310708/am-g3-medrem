@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">MemRem</string>
+    <string name="app_name">MedRem</string>
+    <string name="splash_content_description">Splash Image</string>
 </resources>

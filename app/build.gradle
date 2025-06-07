@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.grupo3.memrem'
+    namespace 'com.grupo3.medrem'
     compileSdk 35
 
     defaultConfig {
-        applicationId "com.grupo3.memrem"
+        applicationId "com.grupo3.medrem"
         minSdk 24
         targetSdk 35
         versionCode 1
