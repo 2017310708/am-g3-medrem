@@ -11,4 +11,8 @@
     <string name="onboarding2_subtitulo">MediRemind te ayuda a recordar cuándo tomar tus medicamentos con notificaciones personalizadas.</string>
     <string name="onboarding2_boton">Siguiente →</string>
 
+    <string name="onboarding3_titulo">Seguimiento de tu historial</string>
+    <string name="onboarding3_subtitulo">Mantén un registro de tus medicamentos tomados y perdidos para compartir con tu médico.</string>
+
+
 </resources>
