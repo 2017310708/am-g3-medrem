@@ -7,4 +7,8 @@
     <string name="main_button_comenzar">Comenzar →</string>
     <string name="main_button_salir">Salir ←</string>
 
+    <string name="onboarding2_titulo">Nunca olvides tus medicamentos</string>
+    <string name="onboarding2_subtitulo">MediRemind te ayuda a recordar cuándo tomar tus medicamentos con notificaciones personalizadas.</string>
+    <string name="onboarding2_boton">Siguiente →</string>
+
 </resources>
