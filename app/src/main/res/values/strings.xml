@@ -14,5 +14,9 @@
     <string name="onboarding3_titulo">Seguimiento de tu historial</string>
     <string name="onboarding3_subtitulo">Mantén un registro de tus medicamentos tomados y perdidos para compartir con tu médico.</string>
 
+    <string name="onboarding4_titulo">Notificaciones personalizadas</string>
+    <string name="onboarding4_subtitulo">Configura recordatorios según tus necesidades y recibe alertas en el momento adecuado.</string>
+    <string name="onboarding4_boton">Comenzar ahora →</string>
+
 
 </resources>

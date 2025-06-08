@@ -14,10 +14,13 @@
         android:theme="@style/Theme.MedRem"
         tools:targetApi="31">
         <activity
-            android:name=".viewmodels.Onboarding3Activity"
+            android:name=".activities.Onboarding4Activity"
             android:exported="false" />
         <activity
-            android:name=".viewmodels.Onboarding2Activity"
+            android:name=".activities.Onboarding3Activity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.Onboarding2Activity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"

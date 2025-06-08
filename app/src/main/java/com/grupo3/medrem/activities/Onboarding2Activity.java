@@ -1,6 +1,8 @@
-package com.grupo3.medrem.viewmodels;
+package com.grupo3.medrem.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,5 +24,10 @@ public class Onboarding2Activity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public void onClickOnboarding3(View view){
+        Intent intent = new Intent(this, Onboarding3Activity.class);
+        startActivity(intent);
     }
 }

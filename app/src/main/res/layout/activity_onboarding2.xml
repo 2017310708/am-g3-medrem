@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".viewmodels.Onboarding2Activity">
+    tools:context=".activities.Onboarding2Activity">
 
     <View
         android:id="@+id/onboarding2_view"
@@ -83,6 +83,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/texto_boton"
         android:background="@drawable/button_style"
+        android:onClick="onClickOnboarding3"
         app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
