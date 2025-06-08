@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">MedRem</string>
     <string name="splash_content_description">Splash Image</string>
+
+    <string name="main_titulo">MediRemind</string>
+    <string name="main_subtitulo">Tu asistente personal para recordatorios de medicamentos</string>
+    <string name="main_button_comenzar">Comenzar →</string>
+    <string name="main_button_salir">Salir ←</string>
+
 </resources>

@@ -8,12 +8,59 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/main_titulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="200dp"
+        android:text="@string/main_titulo"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/texto_titulo"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/main_subtitulo"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="60dp"
+        android:text="@string/main_subtitulo"
+        android:gravity="center"
+        android:textColor="@color/gris"
+        android:textSize="@dimen/texto_subtitulo"
+        app:layout_constraintBottom_toTopOf="@+id/main_button_comenzar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_titulo" />
+
+    <Button
+        android:id="@+id/main_button_comenzar"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_style"
+        app:backgroundTint="@null"
+        android:layout_marginTop="60dp"
+        android:text="@string/main_button_comenzar"
+        android:textSize="@dimen/texto_boton"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_subtitulo" />
+
+    <Button
+        android:id="@+id/main_button_salir"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_style2"
+        app:backgroundTint="@null"
+        android:layout_marginTop="35dp"
+        android:text="@string/main_button_salir"
+        android:textSize="@dimen/texto_boton"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_button_comenzar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
