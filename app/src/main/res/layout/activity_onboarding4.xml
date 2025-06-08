@@ -80,6 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_onboarding"
         android:text="@string/onboarding4_boton"
+        android:onClick="onClickLogin"
         android:textColor="@color/white"
         android:textSize="@dimen/texto_boton"
         android:background="@drawable/button_style"
