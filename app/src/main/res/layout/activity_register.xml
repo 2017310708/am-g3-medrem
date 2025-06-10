@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.RegisterActivity">
+
+    <ImageView
+        android:id="@+id/login_imageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="@dimen/margin_login"
+        android:src="@drawable/ic_mediremind_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/register_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register_title"
+        android:textColor="@color/black"
+        android:textSize="@dimen/texto_titulo_login"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_imageView" />
+
+    <TextView
+        android:id="@+id/register_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register_subtitle"
+        android:textColor="@color/gris"
+        android:textSize="@dimen/texto_subtitulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_title" />
+
+    <EditText
+        android:id="@+id/register_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_register_mediano"
+        android:layout_marginStart="@dimen/margin_register_mediano"
+        android:layout_marginTop="@dimen/margin_onboarding_view"
+        android:background="@drawable/login_label_style"
+        android:padding="8dp"
+        android:textSize="@dimen/texto_normal"
+        android:hint="@string/register_name"
+        android:inputType="textPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/register_subtitle" />
+
+    <EditText
+        android:id="@+id/register_apellido_paterno"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_register_mediano"
+        android:layout_marginTop="@dimen/margin_register_corto"
+        android:background="@drawable/login_label_style"
+        android:padding="8dp"
+        android:hint="@string/register_apaterno"
+        android:textSize="@dimen/texto_normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_name" />
+
+    <EditText
+        android:id="@+id/register_apellido_materno"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="@dimen/margin_register_corto"
+        android:background="@drawable/login_label_style"
+        android:hint="@string/register_amaterno"
+        android:padding="8dp"
+        android:textSize="@dimen/texto_normal"
+        app:layout_constraintStart_toEndOf="@+id/register_apellido_paterno"
+        app:layout_constraintTop_toBottomOf="@+id/register_name" />
+
+    <EditText
+        android:id="@+id/register_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_register_mediano"
+        android:layout_marginStart="@dimen/margin_register_mediano"
+        android:layout_marginTop="@dimen/margin_register_corto"
+        android:background="@drawable/login_label_style"
+        android:padding="8dp"
+        android:textSize="@dimen/texto_normal"
+        android:hint="@string/register_email"
+        app:layout_constraintTop_toBottomOf="@+id/register_apellido_paterno" />
+
+    <EditText
+        android:id="@+id/register_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_register_mediano"
+        android:layout_marginStart="@dimen/margin_register_mediano"
+        android:layout_marginTop="@dimen/margin_register_corto"
+        android:background="@drawable/login_label_style"
+        android:padding="8dp"
+        android:textSize="@dimen/texto_normal"
+        android:hint="@string/register_password"
+        app:layout_constraintTop_toBottomOf="@+id/register_email" />
+
+    <EditText
+        android:id="@+id/register_password_repeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_register_mediano"
+        android:layout_marginStart="@dimen/margin_register_mediano"
+        android:layout_marginTop="@dimen/margin_register_corto"
+        android:background="@drawable/login_label_style"
+        android:padding="8dp"
+        android:textSize="@dimen/texto_normal"
+        android:hint="@string/register_repassword"
+        app:layout_constraintTop_toBottomOf="@+id/register_password" />
+
+    <CheckBox
+        android:id="@+id/register_acept"
+        android:layout_width="340dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="@dimen/margin_register_mediano"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="@dimen/margin_register_mediano"
+        android:text="@string/register_check"
+        android:textColor="@color/gris"
+        android:textSize="@dimen/texto_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_password_repeat" />
+
+    <Button
+        android:id="@+id/register_create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_register_mediano"
+        android:layout_marginEnd="@dimen/margin_register_mediano"
+        android:layout_marginTop="20dp"
+        android:padding="2dp"
+        android:background="@drawable/button_style"
+        android:text="@string/register_button_create"
+        android:textSize="@dimen/texto_boton"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_acept" />
+
+    <View
+        android:id="@+id/register_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gris"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/margin_register_mediano"
+        android:layout_marginEnd="@dimen/margin_register_mediano"
+        app:layout_constraintTop_toBottomOf="@+id/register_create"/>
+
+    <TextView
+        android:id="@+id/register_cuenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/register_cuenta"
+        android:textColor="@color/gris"
+        android:textSize="@dimen/texto_normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_line" />
+
+    <TextView
+        android:id="@+id/register_iniciar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="80dp"
+        android:text="@string/register_iniciar"
+        android:onClick="onclickLogin"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/texto_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_line" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
