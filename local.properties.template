@@ -1,0 +1,4 @@
+# Copy this file as 'local.properties' and replace `base_url` with the local IP of the device that serves the API
+# Copia este archivo como 'local.properties' y reemplaza `base_url` con la IP local del dispositivo que sirve la API
+sdk.dir=C\:\\Users\\Tu_Usuario\\AppData\\Local\\Android\\Sdk
+base_url=http://TU_IP_LOCAL:3000/

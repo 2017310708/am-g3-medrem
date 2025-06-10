@@ -1,4 +1,4 @@
-package com.grupo3.medrem;
+package com.grupo3.medrem.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.grupo3.medrem.R;
 import com.grupo3.medrem.viewmodels.SplashViewModel;
 
 public class SplashActivity extends AppCompatActivity {

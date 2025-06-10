@@ -1,8 +1,7 @@
-package com.grupo3.medrem;
+package com.grupo3.medrem.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -11,7 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.grupo3.medrem.activities.Onboarding2Activity;
+import com.grupo3.medrem.R;
 
 public class MainActivity extends AppCompatActivity {
 

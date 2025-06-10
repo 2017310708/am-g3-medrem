@@ -2,12 +2,24 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withInputStream { stream ->
+        localProperties.load(stream)
+    }
+}
+
 android {
     namespace 'com.grupo3.medrem'
     compileSdk 35
-
+    buildFeatures {
+        buildConfig = true
+    }
     defaultConfig {
         applicationId "com.grupo3.medrem"
+        buildConfigField "String", "BASE_URL", "\"${localProperties.getProperty('base_url', 'http://default.api.url/')}\""
         minSdk 24
         targetSdk 35
         versionCode 1
@@ -37,4 +49,7 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    // Retrofit + Gson
+    implementation libs.retrofit
+    implementation libs.converter.gson
 }
