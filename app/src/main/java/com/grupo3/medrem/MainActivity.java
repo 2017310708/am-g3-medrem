@@ -15,8 +15,6 @@ import com.grupo3.medrem.activities.Onboarding2Activity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String TAG = MainActivity.class.getSimpleName();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,39 +32,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i(TAG,"Ejecutando metodo onStart()");
+    public void onClickSalir(View view) {
+        finish();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG,"Ejecutando metodo onResume()");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.i(TAG,"Ejecutando metodo onReStart()");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i(TAG,"Ejecutando metodo onPause()");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i(TAG,"Ejecutando metodo onStop()");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG,"Ejecutando metodo onDestroy()");
-    }
 }
