@@ -9,5 +9,8 @@
     <dimen name="margin_onboarding">40dp</dimen>
     <dimen name="margin_onboarding_view">32dp</dimen>
 
+    <dimen name="margin_register_corto">16dp</dimen>
+    <dimen name="margin_register_mediano">36dp</dimen>
+
     <dimen name="margin_login">50dp</dimen>
 </resources>

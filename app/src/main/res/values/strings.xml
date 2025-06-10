@@ -17,7 +17,7 @@
     <string name="onboarding4_titulo">Notificaciones personalizadas</string>
     <string name="onboarding4_subtitulo">Configura recordatorios según tus necesidades y recibe alertas en el momento adecuado.</string>
     <string name="onboarding4_boton">Comenzar ahora →</string>
-    
+
     <string name="login_titulo">Iniciar Sesión</string>
     <string name="login_subtitulo">Accede a tu cuenta de MediRemind</string>
     <string name="login_correo">tu@email.com</string>
@@ -30,6 +30,19 @@
     <string name="login_boton_facebook">Iniciar sesión con Facebook</string>
     <string name="login_boton_google">Iniciar sesión con Google</string>
     <string name="login_boton_github">Iniciar sesión con Github</string>
+
+    <string name="register_title">Crear Cuenta</string>
+    <string name="register_subtitle">Únete a MediRemind y cuida tu salud</string>
+    <string name="register_name">Tu nombre completo</string>
+    <string name="register_apaterno">Apellido paterno</string>
+    <string name="register_amaterno">Apellido Materno</string>
+    <string name="register_email">tu@email.com</string>
+    <string name="register_password">Tu password</string>
+    <string name="register_repassword">Repite tu password</string>
+    <string name="register_check">Acepto los Términos y Condiciones y la Política de Privacidad</string>
+    <string name="register_button_create">Crear Cuenta</string>
+    <string name="register_cuenta">¿Ya tienes una cuenta?</string>
+    <string name="register_iniciar">Inicia sesion aquí</string>
 
 
 </resources>
