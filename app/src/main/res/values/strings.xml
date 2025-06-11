@@ -38,7 +38,8 @@
     <string name="register_amaterno">Apellido Materno</string>
     <string name="register_email">tu@email.com</string>
     <string name="register_password">Tu password</string>
-    <string name="register_repassword">Repite tu password</string>
+    <string name="register_telefono">Telefono</string>
+    <string name="register_fecha_nacimiento">Fecha de Nacimiento</string>
     <string name="register_check">Acepto los Términos y Condiciones y la Política de Privacidad</string>
     <string name="register_button_create">Crear Cuenta</string>
     <string name="register_cuenta">¿Ya tienes una cuenta?</string>

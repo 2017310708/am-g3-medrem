@@ -12,5 +12,6 @@
     <dimen name="margin_register_corto">16dp</dimen>
     <dimen name="margin_register_mediano">36dp</dimen>
 
-    <dimen name="margin_login">50dp</dimen>
+    <dimen name="margin_login_grande">40dp</dimen>
+    <dimen name="margin_login_corto">25dp</dimen>
 </resources>

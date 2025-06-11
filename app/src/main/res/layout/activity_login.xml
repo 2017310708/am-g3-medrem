@@ -12,7 +12,7 @@
         android:id="@+id/login_imageView"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="@dimen/margin_login"
+        android:layout_marginTop="@dimen/margin_login_grande"
         android:src="@drawable/ic_mediremind_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -154,45 +154,5 @@
         android:textSize="@dimen/texto_normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_line" />
-
-    <ImageButton
-        android:id="@+id/login_image_facebook"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/button_social"
-        android:src="@drawable/ic_facebook"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@string/login_boton_facebook"
-        app:layout_constraintTop_toBottomOf="@+id/login_button_registrar" />
-
-    <ImageButton
-        android:id="@+id/login_image_google"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="98dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:src="@drawable/ic_google"
-        android:background="@drawable/button_social"
-        android:contentDescription="@string/login_boton_google"
-        app:layout_constraintEnd_toStartOf="@+id/login_image_facebook"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button_registrar" />
-
-    <ImageButton
-        android:id="@+id/login_image_github"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:src="@drawable/ic_github"
-        android:background="@drawable/button_social"
-        android:contentDescription="@string/login_boton_github"
-        app:layout_constraintStart_toEndOf="@+id/login_image_facebook"
-        app:layout_constraintTop_toBottomOf="@+id/login_button_registrar" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
