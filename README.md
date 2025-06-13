@@ -9,6 +9,9 @@ Aplicaciones Móviles
 [Diego Fernando Baes Vasquez](https://github.com/diegobaesv)
 
 ## Prototipos UI
+[Link a Figma](https://www.figma.com/design/4cUoFwAyuIefz8fRplDAzk/app_recordatorio_med?node-id=0-1&p=f&t=Zut5h2ewRAKFfLLK-0)
+
+
 <table>
   <tr>
     <td align="center" width="25%">
