@@ -30,4 +30,9 @@ public class Onboarding2Activity extends AppCompatActivity {
         Intent intent = new Intent(this, Onboarding3Activity.class);
         startActivity(intent);
     }
+
+    public void onClickSaltar(View view){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 }

@@ -17,6 +17,7 @@
     <string name="onboarding4_titulo">Notificaciones personalizadas</string>
     <string name="onboarding4_subtitulo">Configura recordatorios según tus necesidades y recibe alertas en el momento adecuado.</string>
     <string name="onboarding4_boton">Comenzar ahora →</string>
+    <string name="onboarding_saltar"> Saltar</string>
 
     <string name="login_titulo">Iniciar Sesión</string>
     <string name="login_subtitulo">Accede a tu cuenta de MediRemind</string>

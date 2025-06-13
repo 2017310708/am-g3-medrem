@@ -37,6 +37,24 @@
         app:layout_constraintStart_toEndOf="@+id/onboarding3_view2"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/onboarding3_saltar"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/indicador_inactivo"
+        android:padding="2dp"
+        android:text="@string/onboarding_saltar"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:onClick="onClickSaltar"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/onboarding3_view3"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/onboarding3_icon"
         android:layout_width="80dp"
