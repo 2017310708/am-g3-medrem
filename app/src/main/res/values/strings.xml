@@ -46,5 +46,6 @@
     <string name="register_cuenta">¿Ya tienes una cuenta?</string>
     <string name="register_iniciar">Inicia sesion aquí</string>
 
+    <string name="dashboard_cerrar_sesion">Cerrar Sesión</string>
 
 </resources>

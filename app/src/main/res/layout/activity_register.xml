@@ -152,7 +152,7 @@
         app:layout_constraintTop_toBottomOf="@+id/register_fecha_nacimiento" />
 
     <Button
-        android:id="@+id/register_create"
+        android:id="@+id/register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_register_mediano"
@@ -163,9 +163,20 @@
         android:text="@string/register_button_create"
         android:textSize="@dimen/texto_boton"
         app:backgroundTint="@null"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="onRegisterClick"
+        app:layout_constraintTop_toBottomOf="@id/register_acept"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_acept" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/register_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/register_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
     <View
         android:id="@+id/register_line"
@@ -175,13 +186,13 @@
         android:layout_marginTop="15dp"
         android:layout_marginStart="@dimen/margin_register_mediano"
         android:layout_marginEnd="@dimen/margin_register_mediano"
-        app:layout_constraintTop_toBottomOf="@+id/register_create"/>
+        app:layout_constraintTop_toBottomOf="@+id/register_button"/>
 
     <TextView
         android:id="@+id/register_cuenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="10dp"
         android:text="@string/register_cuenta"
         android:textColor="@color/gris"
@@ -194,7 +205,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginEnd="60dp"
         android:text="@string/register_iniciar"
         android:onClick="onclickLogin"
         android:textColor="@color/blue"

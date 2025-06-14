@@ -1,8 +1,16 @@
-package com.grupo3.medrem.models;
+package com.grupo3.medrem.data.dto.request;
+
+import com.google.gson.annotations.SerializedName;
 
 public class LoginRequest {
+    @SerializedName("correo")
     private String correo;
+    
+    @SerializedName("password")
     private String password;
+
+    public LoginRequest() {
+    }
 
     public LoginRequest(String correo, String password) {
         this.correo = correo;
@@ -24,4 +32,4 @@ public class LoginRequest {
     public void setPassword(String password) {
         this.password = password;
     }
-}
+} 

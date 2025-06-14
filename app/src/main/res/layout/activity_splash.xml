@@ -4,6 +4,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
     tools:context=".activities.SplashActivity">
 
     <ImageView
@@ -12,6 +13,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/splash_content_description"
         android:src="@drawable/ic_screen_splash"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:fitsSystemWindows="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
