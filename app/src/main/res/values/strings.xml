@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MedRem</string>
+    <string name="app_name">MediRemind</string>
     <string name="splash_content_description">Splash Image</string>
 
     <string name="main_titulo">MediRemind</string>
@@ -47,5 +47,23 @@
     <string name="register_iniciar">Inicia sesion aquí</string>
 
     <string name="dashboard_cerrar_sesion">Cerrar Sesión</string>
+    <string name="dashboard_ic_profile_contentDescription">Perfil</string>
+    <string name="dashboard_ic_clock_contentDescription">Reloj</string>
+    <string name="dashboard_ic_heart_contentDescription">Corazón</string>
+    <string name="dashboard_ic_notification_contentDescription">Notificaciones</string>
+    <string name="dashboard_today_title">Hoy</string>
+    <string name="dashboard_future_title">Próximos recordatorios</string>
+    <string name="dashboard_add_reminder_contentDescription">Agregar Recordatorio</string>
+    <string name="dashboard_home">Inicio</string>
+    <string name="dashboard_history">Historial</string>
+    <string name="dashboard_termsContentDescription">Términos y Condiciones</string>
+    <string name="dashboard_terms">Términos</string>
+    <string name="dashboard_settings">Ajustes</string>
 
+    <!-- Tarjetas de recordatorios -->
+    <string name="text_time">Tiempo</string>
+    <string name="status_taken">Tomado</string>
+    <string name="status_missed">Perdido</string>
+    <string name="button_confirm">Confirmar</string>
+    <string name="button_cancel">Cancelar</string>
 </resources>

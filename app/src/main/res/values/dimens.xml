@@ -14,4 +14,17 @@
 
     <dimen name="margin_login_grande">40dp</dimen>
     <dimen name="margin_login_corto">25dp</dimen>
+
+    <!-- Tarjetas de recordatorios -->
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="margin_card_horizontal">16dp</dimen>
+    <dimen name="margin_card_vertical">8dp</dimen>
+    <dimen name="card_corner_radius">8dp</dimen>
+    <dimen name="card_elevation">2dp</dimen>
+    <dimen name="padding_card">16dp</dimen>
+    <dimen name="margin_text_start">4dp</dimen>
+    <dimen name="icon_size_small">16dp</dimen>
+    <dimen name="icon_size_medium">24dp</dimen>
+    <dimen name="button_size_large">40dp</dimen>
 </resources>

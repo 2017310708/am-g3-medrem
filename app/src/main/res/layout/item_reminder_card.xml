@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_card_horizontal"
+    android:layout_marginEnd="@dimen/margin_card_horizontal"
+    android:layout_marginTop="@dimen/margin_card_vertical"
+    android:layout_marginBottom="@dimen/margin_card_vertical"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_card">
+        
+        <TextView
+            android:id="@+id/nombreMedicamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textoDosis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_medium"
+            android:textColor="@color/text_color_secondary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nombreMedicamento" />
+
+        <LinearLayout
+            android:id="@+id/timeContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textoDosis"
+            android:layout_marginTop="@dimen/margin_card_vertical">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size_small"
+                android:layout_height="@dimen/icon_size_small"
+                android:src="@drawable/ic_clock_small"
+                android:contentDescription="@string/text_time" />
+
+            <TextView
+                android:id="@+id/textoTiempo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/text_color_secondary"
+                android:layout_marginStart="@dimen/margin_text_start" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/statusContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- Tomado -->
+            <ImageView
+                android:id="@+id/takenIcon"
+                android:layout_width="@dimen/icon_size_medium"
+                android:layout_height="@dimen/icon_size_medium"
+                android:src="@drawable/ic_check_circle"
+                android:visibility="gone"
+                android:contentDescription="@string/status_taken" />
+
+            <TextView
+                android:id="@+id/takenText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_taken"
+                android:textColor="@color/color_success"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_marginStart="@dimen/margin_text_start"
+                android:visibility="gone" />
+
+            <!-- Perdido -->
+            <ImageView
+                android:id="@+id/missedIcon"
+                android:layout_width="@dimen/icon_size_medium"
+                android:layout_height="@dimen/icon_size_medium"
+                android:src="@drawable/ic_cancel"
+                android:visibility="gone"
+                android:contentDescription="@string/status_missed" />
+
+            <TextView
+                android:id="@+id/missedText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/status_missed"
+                android:textColor="@color/color_error"
+                android:textSize="@dimen/text_size_medium"
+                android:layout_marginStart="@dimen/margin_text_start"
+                android:visibility="gone" />
+
+            <!-- Pendiente + botones de accion -->
+            <ImageButton
+                android:id="@+id/confirmButton"
+                android:layout_width="@dimen/button_size_large"
+                android:layout_height="@dimen/button_size_large"
+                android:src="@drawable/ic_check_circle"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/button_confirm"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/cancelButton"
+                android:layout_width="@dimen/button_size_large"
+                android:layout_height="@dimen/button_size_large"
+                android:src="@drawable/ic_cancel"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/button_cancel"
+                android:layout_marginStart="@dimen/margin_card_vertical"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
