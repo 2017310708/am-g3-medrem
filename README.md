@@ -70,7 +70,7 @@ Aplicaciones Móviles
 </table>
 
 ## Diagrama de BD
-<img src="./docs/images/db.jpg" alt="DB ER Diagram" width="100%"/>
+<img src="./docs/images/database.png" alt="DB ER Diagram" width="100%"/>
 
 ## API/Backend
 - [RECORDATORIO_MED_API](https://github.com/pr1vi3t/RECORDATORIO_MED_API)
