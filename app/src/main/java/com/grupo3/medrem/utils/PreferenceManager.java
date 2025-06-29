@@ -12,6 +12,9 @@ public class PreferenceManager {
     private static final String KEY_TOKEN = "token";
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
     private static final String KEY_REMEMBER_ME = "remember_me";
+    private static final String KEY_DARK_MODE = "dark_mode";
+    private static final String KEY_LANGUAGE = "language";
+    private static final String KEY_NOTIFICATIONS = "notifications";
 
     private final SharedPreferences sharedPreferences;
     private final Gson gson;
@@ -75,4 +78,41 @@ public class PreferenceManager {
         }
         editor.apply();
     }
-} 
+
+    // prefs. Modo oscuro
+    public void setDarkMode(boolean isDarkMode) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_DARK_MODE, isDarkMode);
+        editor.apply();
+    }
+
+    public boolean isDarkModeEnabled() {
+        return sharedPreferences.getBoolean(KEY_DARK_MODE, false);
+    }
+
+    // prefs. Idioma
+    public void setLanguage(String languageCode) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_LANGUAGE, languageCode);
+        editor.apply();
+    }
+
+    public String getLanguage() {
+        return sharedPreferences.getString(KEY_LANGUAGE, "es");
+    }
+
+    public boolean isLanguageSet() {
+        return sharedPreferences.contains(KEY_LANGUAGE);
+    }
+
+    // prefs. Notificaciones
+    public void setNotificationsEnabled(boolean isEnabled) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_NOTIFICATIONS, isEnabled);
+        editor.apply();
+    }
+
+    public boolean isNotificationsEnabled() {
+        return sharedPreferences.getBoolean(KEY_NOTIFICATIONS, true);
+    }
+}

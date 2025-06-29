@@ -5,7 +5,7 @@
     android:viewportHeight="32"
     android:tint="?attr/colorOnSurface">
     <path
-        android:strokeColor="@color/black"
+        android:strokeColor="?attr/colorOnSurface"
         android:strokeWidth="2"
         android:strokeLineJoin="round"
         android:strokeLineCap="round"

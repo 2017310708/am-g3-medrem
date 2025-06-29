@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.grupo3.medrem.R;
 import com.grupo3.medrem.utils.PreferenceManager;
+import com.grupo3.medrem.utils.LanguageHelper;
 import com.grupo3.medrem.viewmodels.SplashViewModel;
 
 public class SplashActivity extends AppCompatActivity {
@@ -21,9 +22,11 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         preferenceManager = new PreferenceManager(this);
+        String savedLanguage = preferenceManager.getLanguage();
+        LanguageHelper.setAppLanguage(this, savedLanguage);
+
+        super.onCreate(savedInstanceState);
 
         // Pantalla completa
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);

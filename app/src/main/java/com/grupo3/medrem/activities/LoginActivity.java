@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.grupo3.medrem.R;
 import com.grupo3.medrem.utils.PreferenceManager;
+import com.grupo3.medrem.utils.LanguageHelper;
 import com.grupo3.medrem.viewmodels.LoginViewModel;
 
 public class LoginActivity extends AppCompatActivity {
@@ -30,11 +31,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preferenceManager = new PreferenceManager(this);
+        String savedLanguage = preferenceManager.getLanguage();
+        LanguageHelper.setAppLanguage(this, savedLanguage);
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-
-        preferenceManager = new PreferenceManager(this);
         
         if (preferenceManager.isLoggedIn() && preferenceManager.isRememberMeEnabled()) {
             navigateToDashboard();

@@ -11,13 +11,22 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.grupo3.medrem.R;
+import com.grupo3.medrem.utils.PreferenceManager;
+import com.grupo3.medrem.utils.LanguageHelper;
 
 public class Onboarding4Activity extends AppCompatActivity {
+
+    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
+        preferenceManager = new PreferenceManager(this);
+        String savedLanguage = preferenceManager.getLanguage();
+        LanguageHelper.setAppLanguage(this, savedLanguage);
+
         setContentView(R.layout.activity_onboarding4);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

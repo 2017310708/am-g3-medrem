@@ -14,4 +14,18 @@
     <color name="text_color_secondary">#757575</color>
     <color name="color_success">#4CAF50</color>
     <color name="color_error">#F44336</color>
+
+    <!-- Botones de días y acciones -->
+    <color name="day_button_selected">#9C27B0</color>
+    <color name="button_save">#2196F3</color>
+    <color name="button_cancel">#F44336</color>
+
+    <!-- Colores dinámicos para temas -->
+    <color name="background_primary">#F5F5F5</color>
+    <color name="background_secondary">#FFFFFF</color>
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#757575</color>
+    <color name="icon_tint">#000000</color>
+    <color name="surface_color">#FFFFFF</color>
+    <color name="card_background">#FFFFFF</color>
 </resources>

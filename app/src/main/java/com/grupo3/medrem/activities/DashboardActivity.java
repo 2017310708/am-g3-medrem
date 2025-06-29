@@ -1,6 +1,8 @@
 package com.grupo3.medrem.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.grupo3.medrem.R;
+import com.grupo3.medrem.utils.PreferenceManager;
+import com.grupo3.medrem.utils.LanguageHelper;
 
 public class DashboardActivity extends AppCompatActivity implements ReminderAdapter.OnReminderActionListener {
 
@@ -23,8 +27,17 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
     private List<ReminderAdapter.ReminderItem> todayReminders;
     private List<ReminderAdapter.ReminderItem> futureReminders;
 
+    private LinearLayout homeButton;
+    private LinearLayout termsButton;
+    private LinearLayout settingsButton;
+    private PreferenceManager preferenceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preferenceManager = new PreferenceManager(this);
+        String savedLanguage = preferenceManager.getLanguage();
+        LanguageHelper.setAppLanguage(this, savedLanguage);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
@@ -47,8 +60,56 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
 
         FloatingActionButton addReminderFab = findViewById(R.id.addReminderFab);
         addReminderFab.setOnClickListener(v -> {
-            // TO-DO
+            Intent intent = new Intent(this, NewReminderActivity.class);
+            startActivity(intent);
         });
+
+        setupBottomNavigation();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String savedLanguage = preferenceManager.getLanguage();
+        String currentLanguage = getResources().getConfiguration().locale.getLanguage();
+
+        if (!currentLanguage.equals(savedLanguage)) {
+            LanguageHelper.setAppLanguage(this, savedLanguage);
+            recreate();
+            return;
+        }
+    }
+
+    private void setupBottomNavigation() {
+        homeButton = findViewById(R.id.homeButton);
+        termsButton = findViewById(R.id.termsButton);
+        settingsButton = findViewById(R.id.settingsButton);
+
+        homeButton.setOnClickListener(v -> {
+            // No hacer nada ya que estamos en el Dashboard
+        });
+
+        termsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, TermsActivity.class);
+            startActivity(intent);
+        });
+
+        settingsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivityForResult(intent, 1001);
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1001) {
+            String savedLanguage = preferenceManager.getLanguage();
+            LanguageHelper.setAppLanguage(this, savedLanguage);
+            recreate();
+        }
     }
 
     private void loadSampleData() {

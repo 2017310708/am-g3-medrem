@@ -1,0 +1,148 @@
+<resources>
+    <string name="app_name">MediRemind</string>
+    <string name="splash_content_description">Splash Image</string>
+
+    <string name="main_titulo">MediRemind</string>
+    <string name="main_subtitulo">Your personal assistant for medication reminders</string>
+    <string name="main_button_comenzar">Get Started →</string>
+    <string name="main_button_salir">Exit ←</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding2_titulo">Never forget your medications</string>
+    <string name="onboarding2_subtitulo">MediRemind helps you remember when to take your medications with personalized notifications.</string>
+    <string name="onboarding2_boton">Next →</string>
+
+    <string name="onboarding3_titulo">Track your history</string>
+    <string name="onboarding3_subtitulo">Keep a record of your taken and missed medications to share with your doctor.</string>
+
+    <string name="onboarding4_titulo">Personalized notifications</string>
+    <string name="onboarding4_subtitulo">Set up reminders according to your needs and receive alerts at the right time.</string>
+    <string name="onboarding4_boton">Start now →</string>
+    <string name="onboarding_saltar"> Skip</string>
+
+    <!-- Login Activity -->
+    <string name="login_titulo">Sign In</string>
+    <string name="login_subtitulo">Access your MediRemind account</string>
+    <string name="login_correo">your@email.com</string>
+    <string name="login_password">Password</string>
+    <string name="login_check">Remember me</string>
+    <string name="login_recordarPassword">Forgot your password?</string>
+    <string name="login_boton_login">Sign In</string>
+    <string name="login_cuenta_nueva">Don\'t have an account?</string>
+    <string name="login_registrar">Register here</string>
+    <string name="login_boton_facebook">Sign in with Facebook</string>
+    <string name="login_boton_google">Sign in with Google</string>
+    <string name="login_boton_github">Sign in with Github</string>
+
+    <!-- Register Activity -->
+    <string name="register_title">Create Account</string>
+    <string name="register_subtitle">Join MediRemind and take care of your health</string>
+    <string name="register_name">Your full name</string>
+    <string name="register_apaterno">Last name</string>
+    <string name="register_amaterno">Mother\'s last name</string>
+    <string name="register_email">your@email.com</string>
+    <string name="register_telefono">Phone</string>
+    <string name="register_fecha_nacimiento">Date of Birth</string>
+    <string name="register_password">Your password</string>
+    <string name="register_check">I accept the Terms and Conditions and Privacy Policy</string>
+    <string name="register_button_create">Create Account</string>
+    <string name="register_cuenta">Already have an account?</string>
+    <string name="register_iniciar">Sign in here</string>
+
+    <!-- Dashboard Activity -->
+    <string name="dashboard_cerrar_sesion">Sign Out</string>
+    <string name="dashboard_ic_profile_contentDescription">Profile</string>
+    <string name="dashboard_ic_clock_contentDescription">Clock</string>
+    <string name="dashboard_ic_heart_contentDescription">Heart</string>
+    <string name="dashboard_ic_notification_contentDescription">Notifications</string>
+    <string name="dashboard_today_title">Today</string>
+    <string name="dashboard_future_title">Upcoming reminders</string>
+    <string name="dashboard_add_reminder_contentDescription">Add Reminder</string>
+    <string name="dashboard_home">Home</string>
+    <string name="dashboard_history">History</string>
+    <string name="dashboard_termsContentDescription">Terms and Conditions</string>
+    <string name="dashboard_terms">Terms</string>
+    <string name="dashboard_settings">Settings</string>
+
+    <!-- Reminder cards -->
+    <string name="text_time">Time</string>
+    <string name="status_taken">Taken</string>
+    <string name="status_missed">Missed</string>
+    <string name="button_confirm">Confirm</string>
+    <string name="button_cancel">Cancel</string>
+
+    <!-- New Reminder Activity -->
+    <string name="new_reminder_backButton_contentDescription">Back</string>
+    <string name="new_reminder_title">New Reminder</string>
+    <string name="new_reminder_medicine_name">Medicine Name</string>
+    <string name="new_reminder_medicine_name_hint">E.g. Paracetamol</string>
+    <string name="new_reminder_start_date">Start Date</string>
+    <string name="new_reminder_end_date">End Date</string>
+    <string name="new_reminder_date_hint">--/--/--</string>
+    <string name="new_reminder_time">Time</string>
+    <string name="new_reminder_time_hint">--:--</string>
+    <string name="new_reminder_frequency">Frequency</string>
+    <string name="new_reminder_frequency_daily">Daily</string>
+    <string name="new_reminder_days_week">Days of the week</string>
+    <string name="new_reminder_additional_notes">Additional notes</string>
+    <string name="new_reminder_additional_notes_hint">E.g. Take after eating</string>
+    <string name="new_reminder_save">Save</string>
+    <string name="new_reminder_cancel">Cancel</string>
+    <string name="new_reminder_day_monday">M</string>
+    <string name="new_reminder_day_tuesday">T</string>
+    <string name="new_reminder_day_wednesday">W</string>
+    <string name="new_reminder_day_thursday">T</string>
+    <string name="new_reminder_day_friday">F</string>
+    <string name="new_reminder_day_saturday">S</string>
+    <string name="new_reminder_day_sunday">S</string>
+
+    <!-- Terms and Conditions Activity -->
+    <string name="terms_title">Terms and Conditions</string>
+    <string name="terms_content_title">Terms and Conditions of Use</string>
+    <string name="terms_welcome">Welcome to MediRemind. By using our application, you accept the following terms and conditions.</string>
+    <string name="terms_section_1_title">1. Use of the Application</string>
+    <string name="terms_section_1_content">MediRemind is an application designed to help you remember to take medications. It does not replace professional medical advice. Always consult with your doctor before starting, changing, or stopping any treatment.</string>
+    <string name="terms_section_2_title">2. Privacy and Data</string>
+    <string name="terms_section_2_content">We respect your privacy. The data you provide is used solely for the operation of the application. We do not share your information with third parties without your explicit consent. For more details, see our Privacy Policy.</string>
+    <string name="terms_section_3_title">3. Responsibility</string>
+    <string name="terms_section_3_content">MediRemind is not responsible for any consequences arising from incorrect use of the application or failure to follow medical instructions. The application is a support tool, not a substitute for medical care.</string>
+    <string name="terms_section_4_title">4. Intellectual Property</string>
+    <string name="terms_section_4_content">All intellectual property rights related to MediRemind, including but not limited to software, design, logos and content, are owned by MediRemind and its licensors.</string>
+    <string name="terms_section_5_title">5. Modifications</string>
+    <string name="terms_section_5_content">We reserve the right to modify these terms and conditions at any time. Changes will take effect immediately after publication in the application.</string>
+    <string name="terms_section_6_title">6. Termination</string>
+    <string name="terms_section_6_content">We may terminate or suspend your access to the application immediately, without prior notice or liability, for any reason, including, without limitation, if you breach these Terms and Conditions.</string>
+    <string name="terms_section_7_title">7. Applicable Law</string>
+    <string name="terms_section_7_content">These terms will be governed and interpreted in accordance with the laws of the user\'s country of residence, without regard to its conflict of laws provisions.</string>
+    <string name="terms_accept_button">Accept Terms</string>
+
+    <!-- Settings Activity -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notifications_desc">Manage alerts and reminders</string>
+    <string name="settings_dark_mode">Dark mode</string>
+    <string name="settings_dark_mode_desc">Change app appearance</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_desc">Select application language</string>
+    <string name="settings_language_spanish">Spanish</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_privacy">Privacy</string>
+    <string name="settings_privacy_desc">Manage data and permissions</string>
+    <string name="settings_profile">Profile</string>
+    <string name="settings_profile_desc">Manage personal information</string>
+    <string name="settings_logout">Sign out</string>
+    <string name="settings_logout_desc">Manage personal information</string>
+    <string name="settings_app_version">MediRemind v1.00</string>
+    <string name="settings_copyright">© 2025 MediRemind. All rights reserved.</string>
+    
+    <!-- Language options -->
+    <string-array name="language_options">
+        <item>@string/settings_language_spanish</item>
+        <item>@string/settings_language_english</item>
+    </string-array>
+    
+    <string-array name="language_codes">
+        <item>es</item>
+        <item>en</item>
+    </string-array>
+</resources>

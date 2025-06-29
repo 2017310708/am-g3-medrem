@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_primary"
+    tools:context=".activities.NewReminderActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/top_panel_background"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="@string/new_reminder_backButton_contentDescription"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_reminder_title"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/texto_boton"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topPanel">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/medicineNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/new_reminder_medicine_name"
+                android:textSize="@dimen/texto_normal"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Spinner
+                android:id="@+id/medicineNameSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/login_label_style"
+                android:padding="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/medicineNameLabel" />
+
+            <TextView
+                android:id="@+id/startDateLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/new_reminder_start_date"
+                android:textSize="@dimen/texto_normal"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                app:layout_constraintEnd_toStartOf="@id/endDateLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/medicineNameSpinner" />
+
+            <TextView
+                android:id="@+id/endDateLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/new_reminder_end_date"
+                android:textSize="@dimen/texto_normal"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/startDateLabel"
+                app:layout_constraintTop_toBottomOf="@id/medicineNameSpinner" />
+
+            <EditText
+                android:id="@+id/startDateEditText"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/login_label_style"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/new_reminder_date_hint"
+                android:padding="12dp"
+                android:textSize="@dimen/texto_normal"
+                app:layout_constraintEnd_toStartOf="@id/endDateEditText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/startDateLabel" />
+
+            <EditText
+                android:id="@+id/endDateEditText"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/login_label_style"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/new_reminder_date_hint"
+                android:padding="12dp"
+                android:textSize="@dimen/texto_normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/startDateEditText"
+                app:layout_constraintTop_toBottomOf="@id/endDateLabel" />
+
+            <TextView
+                android:id="@+id/timeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/new_reminder_time"
+                android:textSize="@dimen/texto_normal"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/startDateEditText" />
+
+            <EditText
+                android:id="@+id/timeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/login_label_style"
+                android:clickable="true"
+                android:focusable="true"
+                android:hint="@string/new_reminder_time_hint"
+                android:padding="12dp"
+                android:textSize="@dimen/texto_normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timeLabel" />
+
+            <TextView
+                android:id="@+id/frequencyLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/new_reminder_frequency"
+                android:textSize="@dimen/texto_normal"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timeEditText" />
+
+            <Spinner
+                android:id="@+id/frequencySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/login_label_style"
+                android:padding="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/frequencyLabel" />
+
+            <TextView
+                android:id="@+id/daysOfWeekLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/new_reminder_days_week"
+                android:textSize="@dimen/texto_normal"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/frequencySpinner" />
+
+            <LinearLayout
+                android:id="@+id/daysOfWeekContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/daysOfWeekLabel">
+
+                <TextView
+                    android:id="@+id/mondayButton"
+                    android:layout_width="@dimen/day_button_size"
+                    android:layout_height="@dimen/day_button_size"
+                    android:layout_marginEnd="@dimen/day_button_margin"
+                    android:background="@drawable/day_button_unselected"
+                    android:text="@string/new_reminder_day_monday"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/day_button_text_size"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:id="@+id/tuesdayButton"
+                    android:layout_width="@dimen/day_button_size"
+                    android:layout_height="@dimen/day_button_size"
+                    android:layout_marginEnd="@dimen/day_button_margin"
+                    android:background="@drawable/day_button_unselected"
+                    android:text="@string/new_reminder_day_tuesday"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/day_button_text_size"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:id="@+id/wednesdayButton"
+                    android:layout_width="@dimen/day_button_size"
+                    android:layout_height="@dimen/day_button_size"
+                    android:layout_marginEnd="@dimen/day_button_margin"
+                    android:background="@drawable/day_button_unselected"
+                    android:text="@string/new_reminder_day_wednesday"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/day_button_text_size"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:id="@+id/thursdayButton"
+                    android:layout_width="@dimen/day_button_size"
+                    android:layout_height="@dimen/day_button_size"
+                    android:layout_marginEnd="@dimen/day_button_margin"
+                    android:background="@drawable/day_button_unselected"
+                    android:text="@string/new_reminder_day_thursday"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/day_button_text_size"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:id="@+id/fridayButton"
+                    android:layout_width="@dimen/day_button_size"
+                    android:layout_height="@dimen/day_button_size"
+                    android:layout_marginEnd="@dimen/day_button_margin"
+                    android:background="@drawable/day_button_unselected"
+                    android:text="@string/new_reminder_day_friday"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/day_button_text_size"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:id="@+id/saturdayButton"
+                    android:layout_width="@dimen/day_button_size"
+                    android:layout_height="@dimen/day_button_size"
+                    android:layout_marginEnd="@dimen/day_button_margin"
+                    android:background="@drawable/day_button_unselected"
+                    android:text="@string/new_reminder_day_saturday"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/day_button_text_size"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true" />
+
+                <TextView
+                    android:id="@+id/sundayButton"
+                    android:layout_width="@dimen/day_button_size"
+                    android:layout_height="@dimen/day_button_size"
+                    android:background="@drawable/day_button_unselected"
+                    android:text="@string/new_reminder_day_sunday"
+                    android:textColor="@color/text_color_secondary"
+                    android:textSize="@dimen/day_button_text_size"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/additionalNotesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/new_reminder_additional_notes"
+                android:textSize="@dimen/texto_normal"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/daysOfWeekContainer" />
+
+            <EditText
+                android:id="@+id/additionalNotesEditText"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/login_label_style"
+                android:gravity="top|start"
+                android:hint="@string/new_reminder_additional_notes_hint"
+                android:inputType="textMultiLine"
+                android:padding="12dp"
+                android:textSize="@dimen/texto_normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/additionalNotesLabel" />
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/button_save_style"
+                android:text="@string/new_reminder_save"
+                android:textColor="@color/white"
+                android:textSize="@dimen/texto_boton"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/additionalNotesEditText" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/button_cancel_style"
+                android:text="@string/new_reminder_cancel"
+                android:textColor="@color/white"
+                android:textSize="@dimen/texto_boton"
+                android:textStyle="bold"
+                app:backgroundTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/saveButton" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

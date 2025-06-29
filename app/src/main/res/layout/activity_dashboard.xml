@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_primary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topPanel"
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/main_titulo"
-            android:textColor="#2962FF"
+            android:textColor="@color/text_primary"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -32,6 +33,7 @@
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/ic_profile"
+            android:tint="@color/icon_tint"
             android:contentDescription="@string/dashboard_ic_profile_contentDescription"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/clockIcon"
@@ -43,6 +45,7 @@
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/ic_clock"
+            android:tint="@color/icon_tint"
             android:contentDescription="@string/dashboard_ic_clock_contentDescription"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/heartIcon"
@@ -54,6 +57,7 @@
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/ic_heart"
+            android:tint="@color/icon_tint"
             android:contentDescription="@string/dashboard_ic_heart_contentDescription"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/notificationIcon"
@@ -65,6 +69,7 @@
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/ic_notification"
+            android:tint="@color/icon_tint"
             android:contentDescription="@string/dashboard_ic_notification_contentDescription"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
-            android:background="#F5F5F5"
+            android:background="@color/background_secondary"
             app:layout_constraintHeight_percent="0.5"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -94,6 +99,7 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:text="@string/dashboard_today_title"
+                android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -110,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="vertical"
-            android:background="#F5F5F5"
+            android:background="@color/background_secondary"
             app:layout_constraintHeight_percent="0.5"
             app:layout_constraintTop_toBottomOf="@id/todayRemindersSection"
             app:layout_constraintBottom_toBottomOf="parent">
@@ -121,6 +127,7 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:text="@string/dashboard_future_title"
+                android:textColor="@color/text_primary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -169,12 +176,14 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_home"
+                    android:tint="@color/icon_tint"
                     android:contentDescription="@string/dashboard_home" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dashboard_home"
+                    android:textColor="@color/text_primary"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -190,12 +199,14 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_history"
+                    android:tint="@color/icon_tint"
                     android:contentDescription="@string/dashboard_history" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dashboard_history"
+                    android:textColor="@color/text_primary"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -211,12 +222,14 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_terms"
+                    android:tint="@color/icon_tint"
                     android:contentDescription="@string/dashboard_termsContentDescription" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dashboard_terms"
+                    android:textColor="@color/text_primary"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -232,12 +245,14 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_settings"
+                    android:tint="@color/icon_tint"
                     android:contentDescription="@string/dashboard_settings" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dashboard_settings"
+                    android:textColor="@color/text_primary"
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>

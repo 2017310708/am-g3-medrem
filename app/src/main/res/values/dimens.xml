@@ -27,4 +27,9 @@
     <dimen name="icon_size_small">16dp</dimen>
     <dimen name="icon_size_medium">24dp</dimen>
     <dimen name="button_size_large">40dp</dimen>
+
+    <!-- Botones de días de la semana -->
+    <dimen name="day_button_size">48dp</dimen>
+    <dimen name="day_button_text_size">12sp</dimen>
+    <dimen name="day_button_margin">4dp</dimen>
 </resources>

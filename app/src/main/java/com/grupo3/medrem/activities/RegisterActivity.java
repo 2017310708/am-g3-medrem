@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.grupo3.medrem.R;
 import com.grupo3.medrem.utils.PreferenceManager;
+import com.grupo3.medrem.utils.LanguageHelper;
 import com.grupo3.medrem.viewmodels.RegisterViewModel;
 
 import java.text.SimpleDateFormat;
@@ -46,6 +47,11 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
+        preferenceManager = new PreferenceManager(this);
+        String savedLanguage = preferenceManager.getLanguage();
+        LanguageHelper.setAppLanguage(this, savedLanguage);
+
         setContentView(R.layout.activity_register);
 
         preferenceManager = new PreferenceManager(this);

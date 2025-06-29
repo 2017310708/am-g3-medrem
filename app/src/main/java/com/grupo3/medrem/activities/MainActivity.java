@@ -11,11 +11,19 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.grupo3.medrem.R;
+import com.grupo3.medrem.utils.PreferenceManager;
+import com.grupo3.medrem.utils.LanguageHelper;
 
 public class MainActivity extends AppCompatActivity {
 
+    private PreferenceManager preferenceManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preferenceManager = new PreferenceManager(this);
+        String savedLanguage = preferenceManager.getLanguage();
+        LanguageHelper.setAppLanguage(this, savedLanguage);
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
