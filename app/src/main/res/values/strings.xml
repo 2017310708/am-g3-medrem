@@ -145,4 +145,12 @@
     <string name="terms_section_7_title">7. Ley Aplicable</string>
     <string name="terms_section_7_content">Estos términos se regirán e interpretarán de acuerdo con las leyes del país de residencia del usuario, sin tener en cuenta sus disposiciones sobre conflictos de leyes.</string>
     <string name="terms_accept_button">Aceptar Términos</string>
+
+    <!-- Historial -->
+    <string name="back_button_contentDescription">Volver</string>
+    <string name="history_title">Historial</string>
+    <string name="history_month_example">Mayo 2025</string>
+    <string name="history_calendar">Calendario</string>
+    <string name="history_tab_taken">✔ Tomados</string>
+    <string name="history_tab_missed">✘ Perdido</string>
 </resources>
