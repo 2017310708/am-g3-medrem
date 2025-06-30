@@ -28,6 +28,7 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
     private List<ReminderAdapter.ReminderItem> futureReminders;
 
     private LinearLayout homeButton;
+    private LinearLayout historyButton;
     private LinearLayout termsButton;
     private LinearLayout settingsButton;
     private PreferenceManager preferenceManager;
@@ -83,11 +84,17 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
 
     private void setupBottomNavigation() {
         homeButton = findViewById(R.id.homeButton);
+        historyButton = findViewById(R.id.historyButton);
         termsButton = findViewById(R.id.termsButton);
         settingsButton = findViewById(R.id.settingsButton);
 
         homeButton.setOnClickListener(v -> {
             // No hacer nada ya que estamos en el Dashboard
+        });
+
+        historyButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, HistoryActivity.class);
+            startActivity(intent);
         });
 
         termsButton.setOnClickListener(v -> {
