@@ -3,7 +3,7 @@ package com.grupo3.medrem.data.dto.response;
 import com.google.gson.annotations.SerializedName;
 
 public class UserResponse {
-    @SerializedName("id_usuario")
+    @SerializedName("idUsuario")
     private int idUsuario;
     
     @SerializedName("nombre")
