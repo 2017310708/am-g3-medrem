@@ -1,7 +1,7 @@
 package com.grupo3.medrem.models;
 
 public class User {
-    private int id;
+    private int idUsuario;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -13,8 +13,8 @@ public class User {
     public User() {
     }
 
-    public User(int id, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String telefono, String fechaNacimiento) {
-        this.id = id;
+    public User(int idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String telefono, String fechaNacimiento) {
+        this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -23,12 +23,16 @@ public class User {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public int getId() {
-        return id;
+    public User(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public String getNombre() {
@@ -90,4 +94,4 @@ public class User {
     public String getNombreCompleto() {
         return nombre + " " + apellidoPaterno + " " + apellidoMaterno;
     }
-} 
+}

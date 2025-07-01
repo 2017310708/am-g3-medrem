@@ -11,7 +11,7 @@ public class UserMapper {
         }
         
         User user = new User();
-        user.setId(userResponse.getIdUsuario());
+        user.setIdUsuario(userResponse.getIdUsuario());
         user.setNombre(userResponse.getNombre());
         user.setApellidoPaterno(userResponse.getApellidoPaterno());
         user.setApellidoMaterno(userResponse.getApellidoMaterno());
