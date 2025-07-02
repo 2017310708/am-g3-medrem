@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +57,7 @@ public class NewReminderActivity extends AppCompatActivity {
     private List<TextView> dayButtons;
     private List<Boolean> selectedDays;
     private PreferenceManager preferenceManager;
+    private boolean isUpdatingSpinnerProgrammatically = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +80,6 @@ public class NewReminderActivity extends AppCompatActivity {
         setupTimePicker();
         setupDayButtons();
         setupClickListeners();
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
     }
     private void initializeViews() {
         medicineNameSpinner = findViewById(R.id.medicineNameSpinner);
@@ -187,10 +184,34 @@ public class NewReminderActivity extends AppCompatActivity {
             timePickerDialog.show();
         });
     }
-    private void toggleDaySelection(int dayIndex) {
-        selectedDays.set(dayIndex, !selectedDays.get(dayIndex));
-        TextView button = dayButtons.get(dayIndex);
+    private void setupFrequencySpinnerListener() {
+        frequencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!isUpdatingSpinnerProgrammatically) {
+                    Frecuencia frecuenciaSeleccionada = (Frecuencia) parent.getItemAtPosition(position);
+                    if (frecuenciaSeleccionada.getNombre().equals("Todos los Días")) {
+                        selectAllDays();
+                    }
+                }
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No hacer nada
+            }
+        });
+    }
+
+    private void selectAllDays() {
+        for (int i = 0; i < selectedDays.size(); i++) {
+            selectedDays.set(i, true);
+            updateDayButtonAppearance(i);
+        }
+    }
+
+    private void updateDayButtonAppearance(int dayIndex) {
+        TextView button = dayButtons.get(dayIndex);
         if (selectedDays.get(dayIndex)) {
             button.setBackgroundResource(R.drawable.day_button_selected);
             button.setTextColor(getResources().getColor(R.color.white));
@@ -198,6 +219,37 @@ public class NewReminderActivity extends AppCompatActivity {
             button.setBackgroundResource(R.drawable.day_button_unselected);
             button.setTextColor(getResources().getColor(R.color.text_color_secondary));
         }
+    }
+
+    private void toggleDaySelection(int dayIndex) {
+        selectedDays.set(dayIndex, !selectedDays.get(dayIndex));
+        updateDayButtonAppearance(dayIndex);
+
+        boolean allDaysSelected = true;
+        for (Boolean selected : selectedDays) {
+            if (!selected) {
+                allDaysSelected = false;
+                break;
+            }
+        }
+
+        if (!allDaysSelected) {
+            changeToSpecificDays();
+        }
+    }
+
+    private void changeToSpecificDays() {
+        isUpdatingSpinnerProgrammatically = true;
+
+        for (int i = 0; i < frequencySpinner.getCount(); i++) {
+            Frecuencia frecuencia = (Frecuencia) frequencySpinner.getItemAtPosition(i);
+            if (frecuencia.getNombre().equals("Días Específicos")) {
+                frequencySpinner.setSelection(i);
+                break;
+            }
+        }
+
+        isUpdatingSpinnerProgrammatically = false;
     }
     private void loadMedicamentos() {
         MedicamentoRepository medicamentoRepository = new MedicamentoRepository();
@@ -232,6 +284,7 @@ public class NewReminderActivity extends AppCompatActivity {
                 );
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 frequencySpinner.setAdapter(adapter);
+                setupFrequencySpinnerListener();
             }
             @Override
             public void onError(String message) {

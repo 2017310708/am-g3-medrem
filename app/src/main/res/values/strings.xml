@@ -63,6 +63,7 @@
     <string name="dashboard_termsContentDescription">Términos y Condiciones</string>
     <string name="dashboard_terms">Términos</string>
     <string name="dashboard_settings">Ajustes</string>
+    <string name="dashboard_refresh_rate_limit">Espera %d segundos antes de actualizar</string>
 
     <!-- Tarjetas de recordatorios -->
     <string name="text_time">Tiempo</string>

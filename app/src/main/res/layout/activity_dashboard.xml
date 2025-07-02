@@ -76,79 +76,85 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/middleContent"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintHeight_percent="0.8"
         app:layout_constraintTop_toBottomOf="@id/topPanel"
         app:layout_constraintBottom_toTopOf="@id/bottomPanel">
 
-        <LinearLayout
-            android:id="@+id/todayRemindersSection"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/middleContent"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:background="@color/background_secondary"
-            app:layout_constraintHeight_percent="0.5"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/todayTitle"
+            <LinearLayout
+                android:id="@+id/todayRemindersSection"
                 android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:background="@color/background_secondary"
+                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/todayTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="@string/dashboard_today_title"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/todayRemindersList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/futureRemindersSection"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:background="@color/background_secondary"
+                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintTop_toBottomOf="@id/todayRemindersSection"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/futureTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="@string/dashboard_future_title"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/futureRemindersList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="8dp" />
+            </LinearLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/addReminderFab"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/dashboard_today_title"
-                android:textColor="@color/text_primary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/todayRemindersList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingBottom="8dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/futureRemindersSection"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:background="@color/background_secondary"
-            app:layout_constraintHeight_percent="0.5"
-            app:layout_constraintTop_toBottomOf="@id/todayRemindersSection"
-            app:layout_constraintBottom_toBottomOf="parent">
-
-            <TextView
-                android:id="@+id/futureTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/dashboard_future_title"
-                android:textColor="@color/text_primary"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/futureRemindersList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingBottom="8dp" />
-        </LinearLayout>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addReminderFab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:contentDescription="@string/dashboard_add_reminder_contentDescription"
-            android:src="@drawable/ic_add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_margin="16dp"
+                android:contentDescription="@string/dashboard_add_reminder_contentDescription"
+                android:src="@drawable/ic_add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomPanel"
