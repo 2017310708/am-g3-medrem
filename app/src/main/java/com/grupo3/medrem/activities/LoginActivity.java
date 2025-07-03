@@ -61,8 +61,9 @@ public class LoginActivity extends AppCompatActivity {
                 preferenceManager.setLoggedIn(true);
                 
                 preferenceManager.setRememberMe(rememberMeCheckBox.isChecked());
-                
-                Toast.makeText(this, "Login exitoso", Toast.LENGTH_SHORT).show();
+
+                String welcomeMessage = "Bienvenido, " + loginState.getUser().getNombreCompleto();
+                Toast.makeText(this, welcomeMessage, Toast.LENGTH_SHORT).show();
                 navigateToDashboard();
                 finish();
             } else if (loginState.getMessage() != null) {

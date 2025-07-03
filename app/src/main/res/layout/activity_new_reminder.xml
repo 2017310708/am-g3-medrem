@@ -66,13 +66,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Spinner
-                android:id="@+id/medicineNameSpinner"
+            <AutoCompleteTextView
+                android:id="@+id/medicineNameAutoComplete"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/login_label_style"
                 android:padding="12dp"
+                android:hint="@string/new_reminder_medicine_name_hint"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/texto_normal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/medicineNameLabel" />
 
@@ -88,7 +91,7 @@
                 android:textColor="@color/text_primary"
                 app:layout_constraintEnd_toStartOf="@id/endDateLabel"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/medicineNameSpinner" />
+                app:layout_constraintTop_toBottomOf="@id/medicineNameAutoComplete" />
 
             <TextView
                 android:id="@+id/endDateLabel"
@@ -102,7 +105,7 @@
                 android:textColor="@color/text_primary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/startDateLabel"
-                app:layout_constraintTop_toBottomOf="@id/medicineNameSpinner" />
+                app:layout_constraintTop_toBottomOf="@id/medicineNameAutoComplete" />
 
             <EditText
                 android:id="@+id/startDateEditText"

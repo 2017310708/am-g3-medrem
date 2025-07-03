@@ -76,7 +76,7 @@
     <string name="new_reminder_backButton_contentDescription">Back</string>
     <string name="new_reminder_title">New Reminder</string>
     <string name="new_reminder_medicine_name">Medicine Name</string>
-    <string name="new_reminder_medicine_name_hint">E.g. Paracetamol</string>
+    <string name="new_reminder_medicine_name_hint">Find your medication</string>
     <string name="new_reminder_start_date">Start Date</string>
     <string name="new_reminder_end_date">End Date</string>
     <string name="new_reminder_date_hint">--/--/--</string>
