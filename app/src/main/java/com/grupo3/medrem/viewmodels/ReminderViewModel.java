@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.grupo3.medrem.data.dto.request.NewReminderRequest;
 import com.grupo3.medrem.data.dto.response.ReminderDetailResponse;
 import com.grupo3.medrem.models.Reminder;
+import com.grupo3.medrem.repositories.DiaRecordatorioRepository;
 import com.grupo3.medrem.repositories.ReminderRepository;
 
 import java.util.List;
@@ -17,16 +18,18 @@ public class ReminderViewModel extends ViewModel {
 
     public ReminderViewModel() { reminderRepository = new ReminderRepository(); }
 
-    public void saveReminder(NewReminderRequest request) {
-        reminderRepository.newReminder(request, new ReminderRepository.AuthCallback() {
+    public void saveReminder(NewReminderRequest request, List<Integer> diasSeleccionados) {
+        reminderRepository.newReminder(request, new ReminderRepository.ReminderIdCallback() {
 
             @Override
-            public void onSuccess(Reminder reminder) {
-                reminderState.postValue(new ReminderState(true, null, reminder));
+            public void onSuccess(int idRecordatorio) {
+                DiaRecordatorioRepository diaRecordatorioRepository = new DiaRecordatorioRepository();
+                diaRecordatorioRepository.guardarDiasRecordatorio(diasSeleccionados, idRecordatorio);
+                reminderState.postValue(new ReminderState(true, null, idRecordatorio));
             }
             @Override
             public void onError(String message) {
-                reminderState.postValue(new ReminderState(false, message, null));
+                reminderState.postValue(new ReminderState(false, message, 0));
             }
         });
     }
@@ -52,12 +55,12 @@ public class ReminderViewModel extends ViewModel {
     public static class ReminderState {
         private final boolean success;
         private final String message;
-        private final Reminder reminder;
+        private final int idRecordatorio;
 
-        public ReminderState(boolean success, String message, Reminder reminder) {
+        public ReminderState(boolean success, String message, int idRecordatorio) {
             this.success = success;
             this.message = message;
-            this.reminder = reminder;
+            this.idRecordatorio = idRecordatorio;
         }
 
         public boolean isSuccess() {
@@ -68,8 +71,8 @@ public class ReminderViewModel extends ViewModel {
             return message;
         }
 
-        public Reminder getReminder() {
-            return reminder;
+        public int getIdRecordatorio() {
+            return idRecordatorio;
         }
     }
 

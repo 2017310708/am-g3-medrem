@@ -11,6 +11,7 @@ import com.grupo3.medrem.data.mappers.ReminderMapper;
 import com.grupo3.medrem.models.Reminder;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,7 +25,10 @@ public class ReminderRepository {
         void onSuccess(Reminder reminder);
         void onError(String message);
     }
-
+    public interface ReminderIdCallback {
+        void onSuccess(int idRecordatorio);
+        void onError(String message);
+    }
     public interface LoadRemindersCallback {
         void onSuccess(List<ReminderDetailResponse> reminders);
         void onError(String message);
@@ -34,18 +38,17 @@ public class ReminderRepository {
         reminderService = ApiServiceFactory.createReminderService(BASE_URL);
     }
 
-    public void newReminder(NewReminderRequest request, final AuthCallback callback) {
-        reminderService.register(request).enqueue(new Callback<ApiResponse<ReminderResponse>>() {
+    public void newReminder(NewReminderRequest request, final ReminderIdCallback callback) {
+        reminderService.register(request).enqueue(new Callback<ApiResponse<Map<String, Integer>>>() {
             @Override
-            public void onResponse(Call<ApiResponse<ReminderResponse>> call, Response<ApiResponse<ReminderResponse>> response) {
+            public void onResponse(Call<ApiResponse<Map<String, Integer>>> call, Response<ApiResponse<Map<String, Integer>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    ApiResponse<ReminderResponse> apiResponse = response.body();
-                    if (apiResponse.isSuccess() && apiResponse.getData() != null) {
-                        Reminder reminder = ReminderMapper.fromReminderResponse(apiResponse.getData());
-                        callback.onSuccess(reminder);
+                    ApiResponse<Map<String, Integer>> apiResponse = response.body();
+                    if (apiResponse.isSuccess() && apiResponse.getData() != null && apiResponse.getData().containsKey("idRecordatorio")) {
+                        int id = apiResponse.getData().get("idRecordatorio");
+                        callback.onSuccess(id);
                     } else {
-                        callback.onError(apiResponse.getMessage() != null ?
-                                apiResponse.getMessage() : "Error en el registro");
+                        callback.onError("ID de recordatorio no recibido");
                     }
                 } else {
                     callback.onError("Error en la conexión con el servidor");
@@ -53,7 +56,7 @@ public class ReminderRepository {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<ReminderResponse>> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<Map<String, Integer>>> call, Throwable t) {
                 callback.onError("Error de red: " + t.getMessage());
             }
         });

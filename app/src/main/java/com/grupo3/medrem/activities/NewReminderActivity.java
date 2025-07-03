@@ -262,6 +262,15 @@ public class NewReminderActivity extends AppCompatActivity {
         }
     }
 
+    private List<Integer> obtenerDiasSeleccionados() {
+        List<Integer> dias = new ArrayList<>();
+        for (int i = 0; i < selectedDays.size(); i++) {
+            if (selectedDays.get(i)) {
+                dias.add(i); // 0 = lunes, 6 = domingo
+            }
+        }
+        return dias;
+    }
     private void loadMedicamentos() {
         MedicamentoRepository medicamentoRepository = new MedicamentoRepository();
         medicamentoRepository.listarMedicamentos(new MedicamentoRepository.LoadCallback() {
@@ -330,7 +339,7 @@ public class NewReminderActivity extends AppCompatActivity {
                 fechaInicio, fechaFin, hora, notas
         );
 
-        reminderViewModel.saveReminder(request);
+        reminderViewModel.saveReminder(request, obtenerDiasSeleccionados());
         Toast.makeText(this, "Recordatorio programado exitosamente", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(NewReminderActivity.this, DashboardActivity.class);
