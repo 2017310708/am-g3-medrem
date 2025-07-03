@@ -12,10 +12,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ReminderService {
     @POST("/api/v1/recordatorios")
-    Call<ApiResponse<ReminderResponse>> register(@Body NewReminderRequest newReminderRequest);
+    Call<ApiResponse<Map<String, Integer>>> register(@Body NewReminderRequest request);
 
     @GET("/api/v1/recordatorios/usuario/{idUsuario}")
     Call<ApiResponse<List<ReminderDetailResponse>>> getRemindersByUser(@Path("idUsuario") int idUsuario);

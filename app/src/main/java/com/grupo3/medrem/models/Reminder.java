@@ -1,7 +1,7 @@
 package com.grupo3.medrem.models;
 
 public class Reminder {
-    private int idReminder;
+    private int idRecordatorio;
     private int idUsuario;
     private int idMedicamento;
     private int idFrecuencia;
@@ -13,8 +13,12 @@ public class Reminder {
     public Reminder() {
     }
 
-    public Reminder(int idReminder, int idUsuario, int idMedicamento, int idFrecuencia, String fechaInicio, String fechaFin, String hora, String notas) {
-        this.idReminder = idReminder;
+    public Reminder(int idRecordatorio) {
+        this.idRecordatorio = idRecordatorio;
+    }
+
+    public Reminder(int idRecordatorio, int idUsuario, int idMedicamento, int idFrecuencia, String fechaInicio, String fechaFin, String hora, String notas) {
+        this.idRecordatorio = idRecordatorio;
         this.idUsuario = idUsuario;
         this.idMedicamento = idMedicamento;
         this.idFrecuencia = idFrecuencia;
@@ -24,12 +28,12 @@ public class Reminder {
         this.notas = notas;
     }
 
-    public int getIdReminder() {
-        return idReminder;
+    public int getIdRecordatorio() {
+        return idRecordatorio;
     }
 
-    public void setIdReminder(int idReminder) {
-        this.idReminder = idReminder;
+    public void setIdRecordatorio(int idRecordatorio) {
+        this.idRecordatorio = idRecordatorio;
     }
 
     public int getIdUsuario() {

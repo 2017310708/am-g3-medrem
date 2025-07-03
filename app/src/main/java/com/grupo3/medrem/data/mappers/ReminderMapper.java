@@ -11,7 +11,7 @@ public class ReminderMapper {
         }
 
         Reminder reminder = new Reminder();
-        reminder.setIdReminder(reminderResponse.getIdRecordatorio());
+        reminder.setIdRecordatorio(reminderResponse.getIdRecordatorio());
         reminder.setIdUsuario(reminderResponse.getIdUsuario());
         reminder.setIdMedicamento(reminderResponse.getIdMedicamento());
         reminder.setIdFrecuencia(reminderResponse.getIdFrecuencia());
