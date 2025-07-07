@@ -1,5 +1,7 @@
 package com.grupo3.medrem.adapters;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.grupo3.medrem.R;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminderViewHolder> {
@@ -62,10 +66,10 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         }
         holder.cardBackground.setBackgroundColor(backgroundColor);
 
-        configureStatusIndicators(holder, reminder);
+        configureStatusIndicators(holder, reminder,position);
     }
 
-    private void configureStatusIndicators(ReminderViewHolder holder, ReminderItem reminder) {
+    private void configureStatusIndicators(ReminderViewHolder holder, ReminderItem reminder, int position) {
         holder.icono_tomado.setVisibility(View.GONE);
         holder.texto_tomado.setVisibility(View.GONE);
         holder.icono_pedido.setVisibility(View.GONE);
@@ -88,16 +92,19 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
                 holder.boton_confirmar.setVisibility(View.VISIBLE);
                 holder.boton_cancelar.setVisibility(View.VISIBLE);
 
-                final int position = holder.getAdapterPosition();
                 holder.boton_confirmar.setOnClickListener(v -> {
                     if (listener != null && position != RecyclerView.NO_POSITION) {
                         listener.onConfirmReminder(position);
+                        reminder.marcarComoTomado(holder.itemView.getContext());
+                        notifyItemChanged(position);
                     }
                 });
 
                 holder.boton_cancelar.setOnClickListener(v -> {
                     if (listener != null && position != RecyclerView.NO_POSITION) {
                         listener.onCancelReminder(position);
+                        reminder.marcarComoPerdido(holder.itemView.getContext());
+                        notifyItemChanged(position);
                     }
                 });
                 break;
@@ -131,21 +138,46 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     }
 
     public static class ReminderItem {
+        private int idRecordatorio;
         private String nombre_medicamento;
         private String dosis;
         private String texto_tiempo;
         private int estado;
 
-        public ReminderItem(String nombre_medicamento, String dosis, String texto_tiempo, int estado) {
+
+        public ReminderItem(int idRecordatorio, String nombre_medicamento, String dosis, String texto_tiempo, int estado) {
+            this.idRecordatorio = idRecordatorio;
             this.nombre_medicamento = nombre_medicamento;
             this.dosis = dosis;
             this.texto_tiempo = texto_tiempo;
             this.estado = estado;
         }
-
+        public int getIdRecordatorio() { return idRecordatorio; }
         public String getNombre_medicamento() { return nombre_medicamento; }
         public String getDosis() { return dosis; }
         public String getTexto_tiempo() { return texto_tiempo; }
         public int getEstado() { return estado; }
+
+        public void setEstado(int estado) {
+            this.estado = estado;
+        }
+        public void marcarComoTomado(Context context) {
+            context.getSharedPreferences("recordatorio_estados", Context.MODE_PRIVATE)
+                    .edit().putInt("estado_" + idRecordatorio, ESTADO_TOMADO).apply();
+        }
+        public void marcarComoPerdido(Context context) {
+            context.getSharedPreferences("recordatorio_estados", Context.MODE_PRIVATE)
+                    .edit().putInt("estado_" + idRecordatorio, ESTADO_PERDIDO).apply();
+        }
+        public void deshacerEstado(Context context) {
+            context.getSharedPreferences("recordatorio_estados", Context.MODE_PRIVATE)
+                    .edit().remove("estado_" + idRecordatorio).apply();
+        }
+        private void guardarEstado(Context context, int estado) {
+            SharedPreferences prefs = context.getSharedPreferences("recordatorio_estados", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt("estado_" + idRecordatorio, estado);
+            editor.apply();
+        }
     }
 }

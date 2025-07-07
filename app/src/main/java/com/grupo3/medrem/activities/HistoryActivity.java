@@ -1,8 +1,10 @@
 package com.grupo3.medrem.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -36,6 +38,8 @@ public class HistoryActivity extends AppCompatActivity {
     private ReminderViewModel reminderViewModel;
     private PreferenceManager preferenceManager;
     private SimpleDateFormat dateFormatter;
+    private TextView tabTaken, tabMissed;
+    private int currentFilter = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +55,33 @@ public class HistoryActivity extends AppCompatActivity {
 
         historyList = new ArrayList<>();
         adapter = new ReminderAdapter(historyList, null); // No se necesita listener aquí
+        adapter = new ReminderAdapter(historyList, null);
         recyclerHistory.setAdapter(adapter);
 
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
+        tabTaken = findViewById(R.id.tabTaken);
+        tabMissed = findViewById(R.id.tabMissed);
+
+        tabTaken.setOnClickListener(v -> {
+            currentFilter = ReminderAdapter.ESTADO_TOMADO;
+            updateFilterUI();
+            loadRemindersForUser();
+        });
+
+        tabMissed.setOnClickListener(v -> {
+            currentFilter = ReminderAdapter.ESTADO_PERDIDO;
+            updateFilterUI();
+            loadRemindersForUser();
+        });
+
         reminderViewModel = new ViewModelProvider(this).get(ReminderViewModel.class);
         observeReminderData();
+
+        ImageView backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            finish();
+        });
 
         loadRemindersForUser();
     }
@@ -87,41 +112,46 @@ public class HistoryActivity extends AppCompatActivity {
         Date now = new Date();
 
         for (ReminderDetailResponse reminder : reminders) {
-            String fechaInicio = reminder.getFechaInicio();
-            String hora = reminder.getHora();
+            int idRecordatorio = reminder.getIdRecordatorio();
+            int estadoGuardado = obtenerEstadoGuardado(idRecordatorio);
 
-            if (fechaInicio == null || hora == null || reminder.getMedicamento() == null) {
-                Log.e("HistoryActivity", "Recordatorio inválido: campos nulos");
+            if (estadoGuardado != ReminderAdapter.ESTADO_TOMADO && estadoGuardado != ReminderAdapter.ESTADO_PERDIDO) {
+                continue;
+            }
+
+            if (currentFilter == ReminderAdapter.ESTADO_TOMADO && estadoGuardado != ReminderAdapter.ESTADO_TOMADO) {
+                continue;
+            } else if (currentFilter == ReminderAdapter.ESTADO_PERDIDO && estadoGuardado != ReminderAdapter.ESTADO_PERDIDO) {
                 continue;
             }
 
             String medicamento = reminder.getMedicamento().getNombre();
             String dosis = reminder.getMedicamento().getDosis_cantidad() + " " +
                     reminder.getMedicamento().getUnidadDosis().getNombre();
+            String fechaCompleta = reminder.getFechaInicio().substring(0, 10) + " " + reminder.getHora().substring(0, 5);
 
-            String fechaCompleta = fechaInicio.substring(0, 10) + " " + hora.substring(0, 5);
-            int estado;
 
-            try {
-                Date reminderDate = fullDateTimeFormat.parse(fechaCompleta);
-                if (reminderDate != null && reminderDate.before(now)) {
-                    estado = ReminderAdapter.ESTADO_PERDIDO;
-                } else {
-                    estado = ReminderAdapter.ESTADO_PENDIENTE;
-                }
-            } catch (ParseException e) {
-                Log.e("HistoryActivity", "Error al parsear la fecha: " + fechaCompleta, e);
-                estado = ReminderAdapter.ESTADO_PENDIENTE;
-            }
 
             historyList.add(new ReminderAdapter.ReminderItem(
+                    reminder.getIdRecordatorio(),
                     medicamento,
                     dosis,
                     fechaCompleta,
-                    estado
+                    estadoGuardado
             ));
         }
         adapter.notifyDataSetChanged();
-    }
 
+    }
+    private int obtenerEstadoGuardado(int idRecordatorio) {
+        SharedPreferences prefs = getSharedPreferences("recordatorio_estados", MODE_PRIVATE);
+        return prefs.getInt("estado_" + idRecordatorio, ReminderAdapter.ESTADO_PENDIENTE);
+    }
+    private void updateFilterUI() {
+        int selectedBackground = getResources().getColor(R.color.background_secondary);
+        int unselectedBackground = getResources().getColor(R.color.background_primary);
+
+        tabTaken.setBackgroundColor(currentFilter == ReminderAdapter.ESTADO_TOMADO ? selectedBackground : unselectedBackground);
+        tabMissed.setBackgroundColor(currentFilter == ReminderAdapter.ESTADO_PERDIDO ? selectedBackground : unselectedBackground);
+    }
 }

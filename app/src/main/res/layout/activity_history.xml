@@ -13,6 +13,7 @@
         android:id="@+id/headerContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_login_grande"
         android:background="@color/background_secondary"
         android:paddingHorizontal="16dp"
         android:paddingVertical="16dp"
@@ -43,7 +44,7 @@
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <!--LinearLayout
         android:id="@+id/monthRow"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -73,7 +74,7 @@
             android:textColor="@color/blue"
             android:backgroundTint="@color/background_secondary"
             android:elevation="0dp" />
-    </LinearLayout>
+    </LinearLayout-->
 
     <LinearLayout
         android:id="@+id/tabContainer"
@@ -83,7 +84,7 @@
         android:background="@color/background_secondary"
         android:elevation="2dp"
         android:padding="@dimen/margin_card_horizontal"
-        app:layout_constraintTop_toBottomOf="@id/monthRow"
+        app:layout_constraintTop_toBottomOf="@id/headerContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 

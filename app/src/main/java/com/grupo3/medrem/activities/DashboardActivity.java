@@ -1,6 +1,7 @@
 package com.grupo3.medrem.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.grupo3.medrem.adapters.ReminderAdapter;
 import com.grupo3.medrem.data.dto.response.ReminderDetailResponse;
 import com.grupo3.medrem.models.User;
@@ -157,7 +159,7 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
                     processReminders(state.getReminders());
                 } else if (!state.isSuccess()) {
                     Log.e("DashboardActivity", "Error loading reminders: " + state.getMessage());
-                    loadSampleData();
+                    //loadSampleData();
                 }
             } else {
                 Log.d("DashboardActivity", "Observer state is null");
@@ -203,7 +205,7 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
             reminderViewModel.loadRemindersByUser(currentUser.getIdUsuario());
         } else {
             Log.d("DashboardActivity", "No user found, loading sample data");
-            loadSampleData();
+            //loadSampleData();
         }
     }
 
@@ -217,17 +219,25 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
         Log.d("DashboardActivity", "Today date: " + todayStr);
 
         for (ReminderDetailResponse reminder : reminders) {
-            Log.d("DashboardActivity", "Processing reminder: " + reminder.getIdRecordatorio() +
-                  ", start: " + reminder.getFechaInicio() + ", end: " + reminder.getFechaFin());
+            int idRecordatorio = reminder.getIdRecordatorio();
+
+            int estadoGuardado = obtenerEstadoGuardado(idRecordatorio);
+            if (estadoGuardado == ReminderAdapter.ESTADO_TOMADO || estadoGuardado == ReminderAdapter.ESTADO_PERDIDO) {
+                Log.d("DashboardActivity", "Recordatorio " + idRecordatorio + " ya fue tomado o perdido. Omitiendo.");
+                continue;
+            }
+
+            Log.d("DashboardActivity", "Procesando recordatorio: " + idRecordatorio +
+                    ", start: " + reminder.getFechaInicio() + ", end: " + reminder.getFechaFin());
 
             if (isReminderForToday(reminder, todayStr)) {
-                Log.d("DashboardActivity", "Adding to today reminders");
+                Log.d("DashboardActivity", "Agregado a recordatorios de hoy");
                 todayReminders.add(createReminderItem(reminder, true));
             } else if (isReminderForFuture(reminder, todayStr)) {
-                Log.d("DashboardActivity", "Adding to future reminders");
+                Log.d("DashboardActivity", "Agregado a recordatorios futuros");
                 futureReminders.add(createReminderItem(reminder, false));
             } else {
-                Log.d("DashboardActivity", "Reminder not added to any category");
+                Log.d("DashboardActivity", "Recordatorio ignorado");
             }
         }
 
@@ -240,6 +250,10 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
         if (futureAdapter != null) {
             futureAdapter.notifyDataSetChanged();
         }
+    }
+    private int obtenerEstadoGuardado(int idRecordatorio) {
+        SharedPreferences prefs = getSharedPreferences("recordatorio_estados", MODE_PRIVATE);
+        return prefs.getInt("estado_" + idRecordatorio, ReminderAdapter.ESTADO_PENDIENTE);
     }
 
     private boolean isReminderForToday(ReminderDetailResponse reminder, String todayStr) {
@@ -322,8 +336,11 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
             String fechaInicio = reminder.getFechaInicio().substring(0, 10);
             tiempoTexto = fechaInicio + ", " + reminder.getHora().substring(0, 5);
         }
+        int id = reminder.getIdRecordatorio();
+        int estado = obtenerEstadoGuardado(id);
 
         return new ReminderAdapter.ReminderItem(
+                reminder.getIdRecordatorio(),
                 medicamentoNombre,
                 dosis,
                 tiempoTexto,
@@ -331,7 +348,7 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
         );
     }
 
-    private void loadSampleData() {
+    /*private void loadSampleData() {
         todayReminders.add(new ReminderAdapter.ReminderItem(
                 "Paracetamol",
                 "1 pastilla",
@@ -362,27 +379,39 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
         if (futureAdapter != null) {
             futureAdapter.notifyDataSetChanged();
         }
-    }
+    }*/
 
     @Override
     public void onConfirmReminder(int position) {
         ReminderAdapter.ReminderItem reminder = todayReminders.get(position);
-        todayReminders.set(position, new ReminderAdapter.ReminderItem(
-                reminder.getNombre_medicamento(),
-                reminder.getDosis(),
-                reminder.getTexto_tiempo(),
-                ReminderAdapter.ESTADO_TOMADO));
-        todayAdapter.notifyItemChanged(position);
+        reminder.marcarComoTomado(this);
+
+        ReminderAdapter.ReminderItem backup = reminder;
+        todayReminders.remove(position);
+        todayAdapter.notifyItemRemoved(position);
+
+        Snackbar.make(todayRemindersList, "✅ Medicamento Tomado!!!", Snackbar.LENGTH_LONG)
+                .setAction("Deshacer", v -> {
+                    backup.deshacerEstado(this);
+                    todayReminders.add(position, backup);
+                    todayAdapter.notifyItemInserted(position);
+                }).show();
     }
 
     @Override
     public void onCancelReminder(int position) {
         ReminderAdapter.ReminderItem reminder = todayReminders.get(position);
-        todayReminders.set(position, new ReminderAdapter.ReminderItem(
-                reminder.getNombre_medicamento(),
-                reminder.getDosis(),
-                reminder.getTexto_tiempo(),
-                ReminderAdapter.ESTADO_PERDIDO));
-        todayAdapter.notifyItemChanged(position);
+        reminder.marcarComoPerdido(this);
+
+        ReminderAdapter.ReminderItem backup = reminder;
+        todayReminders.remove(position);
+        todayAdapter.notifyItemRemoved(position);
+
+        Snackbar.make(todayRemindersList, "⚠️ Recordatorio Cancelado", Snackbar.LENGTH_LONG)
+                .setAction("Deshacer", v -> {
+                    backup.deshacerEstado(this);
+                    todayReminders.add(position, backup);
+                    todayAdapter.notifyItemInserted(position);
+                }).show();
     }
 }
