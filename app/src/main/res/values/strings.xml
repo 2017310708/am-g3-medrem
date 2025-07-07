@@ -152,6 +152,7 @@
     <string name="history_title">Historial</string>
     <string name="history_month_example">Mayo 2025</string>
     <string name="history_calendar">Calendario</string>
+    <string name="history_tab_all">📋 Todos</string>
     <string name="history_tab_taken">✔ Tomados</string>
     <string name="history_tab_missed">✘ Perdido</string>
 </resources>

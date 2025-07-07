@@ -35,7 +35,16 @@ public class ReminderDetailResponse {
     @SerializedName("recordatorios")
     private List<DiaRecordatorioResponse> diasRecordatorio;
 
+    private String estado;
     public ReminderDetailResponse() {
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public int getIdRecordatorio() {

@@ -141,6 +141,7 @@
     <string name="history_title">History</string>
     <string name="history_month_example">May 2025</string>
     <string name="history_calendar">Calendar</string>
+    <string name="history_tab_all">📋 All</string>
     <string name="history_tab_taken">✔ Taken</string>
     <string name="history_tab_missed">✘ Missed</string>
     
