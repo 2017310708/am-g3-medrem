@@ -89,6 +89,19 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <TextView
+            android:id="@+id/tabAll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/background_all"
+            android:gravity="center"
+            android:paddingVertical="@dimen/margin_card_vertical"
+            android:text="@string/history_tab_all"
+            android:textColor="@color/color_all"
+            android:textSize="@dimen/texto_normal"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/tabTaken"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

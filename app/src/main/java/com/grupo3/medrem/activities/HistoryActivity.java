@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -38,7 +39,7 @@ public class HistoryActivity extends AppCompatActivity {
     private ReminderViewModel reminderViewModel;
     private PreferenceManager preferenceManager;
     private SimpleDateFormat dateFormatter;
-    private TextView tabTaken, tabMissed;
+    private TextView tabTaken, tabMissed , tabAll;
     private int currentFilter = -1;
 
     @Override
@@ -62,6 +63,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         tabTaken = findViewById(R.id.tabTaken);
         tabMissed = findViewById(R.id.tabMissed);
+        tabAll = findViewById(R.id.tabAll);
 
         tabTaken.setOnClickListener(v -> {
             currentFilter = ReminderAdapter.ESTADO_TOMADO;
@@ -71,6 +73,12 @@ public class HistoryActivity extends AppCompatActivity {
 
         tabMissed.setOnClickListener(v -> {
             currentFilter = ReminderAdapter.ESTADO_PERDIDO;
+            updateFilterUI();
+            loadRemindersForUser();
+        });
+
+        tabAll.setOnClickListener(v -> {
+            currentFilter = -1;
             updateFilterUI();
             loadRemindersForUser();
         });
@@ -149,10 +157,13 @@ public class HistoryActivity extends AppCompatActivity {
         return prefs.getInt("estado_" + idRecordatorio, ReminderAdapter.ESTADO_PENDIENTE);
     }
     private void updateFilterUI() {
-        int selectedBackground = getResources().getColor(R.color.background_secondary);
-        int unselectedBackground = getResources().getColor(R.color.background_primary);
+        int selectedColor = ContextCompat.getColor(this, R.color.select);
+        int takenDefault = ContextCompat.getColor(this, R.color.colorTaken);
+        int missedDefault = ContextCompat.getColor(this, R.color.colorMissed);
+        int allDefault = ContextCompat.getColor(this, R.color.background_all);
 
-        tabTaken.setBackgroundColor(currentFilter == ReminderAdapter.ESTADO_TOMADO ? selectedBackground : unselectedBackground);
-        tabMissed.setBackgroundColor(currentFilter == ReminderAdapter.ESTADO_PERDIDO ? selectedBackground : unselectedBackground);
+        tabTaken.setBackgroundColor(currentFilter == ReminderAdapter.ESTADO_TOMADO ? selectedColor : takenDefault);
+        tabMissed.setBackgroundColor(currentFilter == ReminderAdapter.ESTADO_PERDIDO ? selectedColor : missedDefault);
+        tabAll.setBackgroundColor(currentFilter == -1 ? selectedColor : allDefault);
     }
 }
