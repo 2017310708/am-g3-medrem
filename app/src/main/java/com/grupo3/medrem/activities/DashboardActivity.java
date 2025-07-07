@@ -344,7 +344,8 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
                 medicamentoNombre,
                 dosis,
                 tiempoTexto,
-                ReminderAdapter.ESTADO_PENDIENTE
+                ReminderAdapter.ESTADO_PENDIENTE,
+                isToday
         );
     }
 

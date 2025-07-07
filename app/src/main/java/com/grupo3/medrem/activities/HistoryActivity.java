@@ -137,7 +137,8 @@ public class HistoryActivity extends AppCompatActivity {
                     medicamento,
                     dosis,
                     fechaCompleta,
-                    estadoGuardado
+                    estadoGuardado,
+                    false
             ));
         }
         adapter.notifyDataSetChanged();

@@ -89,24 +89,24 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
                 break;
 
             case ESTADO_PENDIENTE:
-                holder.boton_confirmar.setVisibility(View.VISIBLE);
-                holder.boton_cancelar.setVisibility(View.VISIBLE);
+                if (reminder.isEsDeHoy()) {
+                    holder.boton_confirmar.setVisibility(View.VISIBLE);
+                    holder.boton_cancelar.setVisibility(View.VISIBLE);
 
-                holder.boton_confirmar.setOnClickListener(v -> {
-                    if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onConfirmReminder(position);
-                        reminder.marcarComoTomado(holder.itemView.getContext());
-                        notifyItemChanged(position);
-                    }
-                });
+                    holder.boton_confirmar.setOnClickListener(v -> {
+                        if (listener != null && position != RecyclerView.NO_POSITION) {
+                            reminder.marcarComoTomado(holder.itemView.getContext());
+                            listener.onConfirmReminder(position);
+                        }
+                    });
 
-                holder.boton_cancelar.setOnClickListener(v -> {
-                    if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onCancelReminder(position);
-                        reminder.marcarComoPerdido(holder.itemView.getContext());
-                        notifyItemChanged(position);
-                    }
-                });
+                    holder.boton_cancelar.setOnClickListener(v -> {
+                        if (listener != null && position != RecyclerView.NO_POSITION) {
+                            reminder.marcarComoPerdido(holder.itemView.getContext());
+                            listener.onCancelReminder(position);
+                        }
+                    });
+                }
                 break;
         }
     }
@@ -143,14 +143,16 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         private String dosis;
         private String texto_tiempo;
         private int estado;
+        private boolean esDeHoy;
 
 
-        public ReminderItem(int idRecordatorio, String nombre_medicamento, String dosis, String texto_tiempo, int estado) {
+        public ReminderItem(int idRecordatorio, String nombre_medicamento, String dosis, String texto_tiempo, int estado,boolean esDeHoy) {
             this.idRecordatorio = idRecordatorio;
             this.nombre_medicamento = nombre_medicamento;
             this.dosis = dosis;
             this.texto_tiempo = texto_tiempo;
             this.estado = estado;
+            this.esDeHoy = esDeHoy;
         }
         public int getIdRecordatorio() { return idRecordatorio; }
         public String getNombre_medicamento() { return nombre_medicamento; }
@@ -161,6 +163,10 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         public void setEstado(int estado) {
             this.estado = estado;
         }
+        public boolean isEsDeHoy() {
+            return esDeHoy;
+        }
+        public void setEsDeHoy(boolean esDeHoy) { this.esDeHoy = esDeHoy; }
         public void marcarComoTomado(Context context) {
             context.getSharedPreferences("recordatorio_estados", Context.MODE_PRIVATE)
                     .edit().putInt("estado_" + idRecordatorio, ESTADO_TOMADO).apply();
