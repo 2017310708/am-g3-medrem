@@ -157,6 +157,9 @@ public class SettingsActivity extends AppCompatActivity {
     private void handleLogout() {
         Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show();
         preferenceManager.clearSession();
+        preferenceManager.clearUserSettings();
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        LanguageHelper.setAppLanguage(this, "es");
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

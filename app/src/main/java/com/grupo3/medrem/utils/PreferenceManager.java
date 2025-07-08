@@ -73,9 +73,19 @@ public class PreferenceManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (isRememberMeEnabled()) {
             editor.remove(KEY_IS_LOGGED_IN);
+            editor.remove(KEY_USER);
+            editor.remove(KEY_TOKEN);
         } else {
             editor.clear();
         }
+        editor.apply();
+    }
+
+    public void clearUserSettings() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_DARK_MODE, false);
+        editor.putString(KEY_LANGUAGE, "es");
+        editor.putBoolean(KEY_NOTIFICATIONS, true);
         editor.apply();
     }
 
