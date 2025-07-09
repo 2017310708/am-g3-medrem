@@ -50,7 +50,6 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
     private SimpleDateFormat dateFormatter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    // Rate limit para no DOSear a la API
     private long lastRefreshTime = 0;
     private static final long REFRESH_RATE_LIMIT_MS = 5000;
 
@@ -105,7 +104,6 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
         if (!currentLanguage.equals(savedLanguage)) {
             LanguageHelper.setAppLanguage(this, savedLanguage);
             recreate();
-            return;
         }
     }
 
@@ -153,16 +151,11 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
             }
 
             if (state != null) {
-                Log.d("DashboardActivity", "Observer triggered - Success: " + state.isSuccess());
                 if (state.isSuccess() && state.getReminders() != null) {
-                    Log.d("DashboardActivity", "Processing " + state.getReminders().size() + " reminders");
                     processReminders(state.getReminders());
                 } else if (!state.isSuccess()) {
                     Log.e("DashboardActivity", "Error loading reminders: " + state.getMessage());
-                    //loadSampleData();
                 }
-            } else {
-                Log.d("DashboardActivity", "Observer state is null");
             }
         });
     }
@@ -173,87 +166,104 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
 
             if (currentTime - lastRefreshTime < REFRESH_RATE_LIMIT_MS) {
                 long remainingTime = (REFRESH_RATE_LIMIT_MS - (currentTime - lastRefreshTime)) / 1000;
-                Log.d("DashboardActivity", "Rate limit active. Wait " + remainingTime + " seconds");
-
-                String message = getString(R.string.dashboard_refresh_rate_limit, remainingTime);
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(this, getString(R.string.dashboard_refresh_rate_limit, remainingTime), Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
                 return;
             }
 
             lastRefreshTime = currentTime;
-            Log.d("DashboardActivity", "Pull to refresh triggered");
-
             loadUserReminders();
         });
 
         swipeRefreshLayout.setColorSchemeResources(
-            android.R.color.holo_blue_bright,
-            android.R.color.holo_green_light,
-            android.R.color.holo_orange_light,
-            android.R.color.holo_red_light
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light
         );
     }
 
     private void loadUserReminders() {
         User currentUser = preferenceManager.getUser();
-        Log.d("DashboardActivity", "Current user: " + (currentUser != null ? currentUser.getIdUsuario() : "null"));
-
         if (currentUser != null) {
-            Log.d("DashboardActivity", "Loading reminders for user ID: " + currentUser.getIdUsuario());
             reminderViewModel.loadRemindersByUser(currentUser.getIdUsuario());
-        } else {
-            Log.d("DashboardActivity", "No user found, loading sample data");
-            //loadSampleData();
         }
     }
 
     private void processReminders(List<ReminderDetailResponse> reminders) {
-        Log.d("DashboardActivity", "Processing " + reminders.size() + " reminders");
         todayReminders.clear();
         futureReminders.clear();
 
-        Calendar today = Calendar.getInstance();
-        String todayStr = dateFormatter.format(today.getTime());
-        Log.d("DashboardActivity", "Today date: " + todayStr);
+        Calendar now = Calendar.getInstance();
+        String todayStr = dateFormatter.format(now.getTime());
 
         for (ReminderDetailResponse reminder : reminders) {
             int idRecordatorio = reminder.getIdRecordatorio();
+            int estadoGuardadoHoy = obtenerEstadoGuardado(idRecordatorio, todayStr);
 
-            int estadoGuardado = obtenerEstadoGuardado(idRecordatorio);
-            if (estadoGuardado == ReminderAdapter.ESTADO_TOMADO || estadoGuardado == ReminderAdapter.ESTADO_PERDIDO) {
-                Log.d("DashboardActivity", "Recordatorio " + idRecordatorio + " ya fue tomado o perdido. Omitiendo.");
-                continue;
+            boolean inDateRangeToday = isReminderForToday(reminder, todayStr);
+            boolean activeToday = isReminderActiveToday(reminder);
+
+            boolean agregadoAHoy = false;
+
+            if (inDateRangeToday && activeToday) {
+                if (estadoGuardadoHoy == ReminderAdapter.ESTADO_TOMADO || estadoGuardadoHoy == ReminderAdapter.ESTADO_PERDIDO) {
+                } else if (isTimeRemainingToday(reminder, now)) {
+                    todayReminders.add(createReminderItem(reminder, true, todayStr));
+                    agregadoAHoy = true;
+                } else {
+                    ReminderAdapter.ReminderItem item = createReminderItem(reminder, true, todayStr);
+                    item.marcarComoPerdido(this, todayStr);
+                }
             }
 
-            Log.d("DashboardActivity", "Procesando recordatorio: " + idRecordatorio +
-                    ", start: " + reminder.getFechaInicio() + ", end: " + reminder.getFechaFin());
-
-            if (isReminderForToday(reminder, todayStr)) {
-                Log.d("DashboardActivity", "Agregado a recordatorios de hoy");
-                todayReminders.add(createReminderItem(reminder, true));
-            } else if (isReminderForFuture(reminder, todayStr)) {
-                Log.d("DashboardActivity", "Agregado a recordatorios futuros");
-                futureReminders.add(createReminderItem(reminder, false));
-            } else {
-                Log.d("DashboardActivity", "Recordatorio ignorado");
+            if (!agregadoAHoy) {
+                if (isReminderForFuture(reminder, todayStr) && isReminderActiveOnFutureDay(reminder)) {
+                    String startDate = reminder.getFechaInicio().substring(0, 10);
+                    futureReminders.add(createReminderItem(reminder, false, startDate));
+                } else if (hasFutureDates(reminder, todayStr)) {
+                    String nextDate = getNextValidDate(reminder, todayStr);
+                    futureReminders.add(createReminderItem(reminder, false, nextDate));
+                }
             }
         }
 
-        Log.d("DashboardActivity", "Today reminders: " + todayReminders.size() +
-              ", Future reminders: " + futureReminders.size());
+        sortRemindersByDateTime(todayReminders);
+        sortRemindersByDateTime(futureReminders);
 
-        if (todayAdapter != null) {
-            todayAdapter.notifyDataSetChanged();
-        }
-        if (futureAdapter != null) {
-            futureAdapter.notifyDataSetChanged();
+        todayAdapter.notifyDataSetChanged();
+        futureAdapter.notifyDataSetChanged();
+    }
+
+    private void sortRemindersByDateTime(List<ReminderAdapter.ReminderItem> reminders) {
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd, HH:mm", Locale.getDefault());
+        reminders.sort((r1, r2) -> {
+            try {
+                Date d1 = dateTimeFormat.parse(r1.getTexto_tiempo().replace("Hoy", dateFormatter.format(new Date())));
+                Date d2 = dateTimeFormat.parse(r2.getTexto_tiempo().replace("Hoy", dateFormatter.format(new Date())));
+                return d1.compareTo(d2);
+            } catch (ParseException e) {
+                Log.e("DashboardActivity", "Error sorting reminders", e);
+                return 0;
+            }
+        });
+    }
+
+    private boolean hasFutureDates(ReminderDetailResponse reminder, String todayStr) {
+        try {
+            String endDateStr = reminder.getFechaFin().substring(0, 10);
+            Date endDate = dateFormatter.parse(endDateStr);
+            Date today = dateFormatter.parse(todayStr);
+            return endDate.after(today);
+        } catch (ParseException e) {
+            Log.e("DashboardActivity", "Error parsing end date", e);
+            return false;
         }
     }
-    private int obtenerEstadoGuardado(int idRecordatorio) {
+
+    private int obtenerEstadoGuardado(int idRecordatorio, String fecha) {
         SharedPreferences prefs = getSharedPreferences("recordatorio_estados", MODE_PRIVATE);
-        return prefs.getInt("estado_" + idRecordatorio, ReminderAdapter.ESTADO_PENDIENTE);
+        return prefs.getInt("estado_" + idRecordatorio + "_" + fecha, ReminderAdapter.ESTADO_PENDIENTE);
     }
 
     private boolean isReminderForToday(ReminderDetailResponse reminder, String todayStr) {
@@ -265,14 +275,9 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
             Date endDate = dateFormatter.parse(endDateStr);
             Date today = dateFormatter.parse(todayStr);
 
-            Log.d("DashboardActivity", "Checking reminder " + reminder.getIdRecordatorio() +
-                  ": start=" + startDateStr + ", end=" + endDateStr + ", today=" + todayStr);
-
             boolean inDateRange = (today.equals(startDate) || today.after(startDate)) &&
-                                 (today.equals(endDate) || today.before(endDate));
+                    (today.equals(endDate) || today.before(endDate));
             boolean activeToday = isReminderActiveToday(reminder);
-
-            Log.d("DashboardActivity", "Date range check: " + inDateRange + ", Active today: " + activeToday);
 
             return inDateRange && activeToday;
         } catch (ParseException e) {
@@ -294,50 +299,71 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
         }
     }
 
+    private boolean isTimeRemainingToday(ReminderDetailResponse reminder, Calendar now) {
+        try {
+            String[] parts = reminder.getHora().split(":");
+            int reminderHour = Integer.parseInt(parts[0]);
+            int reminderMinute = Integer.parseInt(parts[1]);
+
+            Calendar reminderTime = (Calendar) now.clone();
+            reminderTime.set(Calendar.HOUR_OF_DAY, reminderHour);
+            reminderTime.set(Calendar.MINUTE, reminderMinute);
+            reminderTime.set(Calendar.SECOND, 0);
+            reminderTime.set(Calendar.MILLISECOND, 0);
+
+            // Tolerancia para que el rec. sea checkeado
+            reminderTime.add(Calendar.MINUTE, 15);
+
+            return now.before(reminderTime) || now.equals(reminderTime);
+        } catch (Exception e) {
+            Log.e("DashboardActivity", "Error comparing times", e);
+            return false;
+        }
+    }
+
     private boolean isReminderActiveToday(ReminderDetailResponse reminder) {
         String frecuenciaNombre = reminder.getFrecuencia().getNombre();
-        Log.d("DashboardActivity", "Checking frequency: " + frecuenciaNombre);
 
         if (frecuenciaNombre.equals("Todos los Días")) {
-            Log.d("DashboardActivity", "Frequency is 'Todos los Días' - returning true");
             return true;
         } else if (frecuenciaNombre.equals("Días Específicos")) {
             Calendar today = Calendar.getInstance();
             int dayOfWeek = today.get(Calendar.DAY_OF_WEEK);
-            int ourDayFormat = (dayOfWeek == 1) ? 7 : dayOfWeek - 1;
-
-            Log.d("DashboardActivity", "Today is day: " + ourDayFormat);
+            int ourDayFormat = (dayOfWeek + 5) % 7; // Mapea Domingo=6, Lunes=0
 
             if (reminder.getDiasRecordatorio() != null) {
-                Log.d("DashboardActivity", "Checking " + reminder.getDiasRecordatorio().size() + " specific days");
                 for (ReminderDetailResponse.DiaRecordatorioResponse dia : reminder.getDiasRecordatorio()) {
-                    Log.d("DashboardActivity", "Checking day: " + dia.getDia());
                     if (dia.getDia() == ourDayFormat) {
                         return true;
                     }
                 }
-            } else {
-                Log.d("DashboardActivity", "No specific days found");
             }
         }
-        Log.d("DashboardActivity", "Reminder not active today");
         return false;
     }
 
-    private ReminderAdapter.ReminderItem createReminderItem(ReminderDetailResponse reminder, boolean isToday) {
+    private boolean isReminderActiveOnFutureDay(ReminderDetailResponse reminder) {
+        String frecuenciaNombre = reminder.getFrecuencia().getNombre();
+
+        if (frecuenciaNombre.equals("Todos los Días")) {
+            return true;
+        } else if (frecuenciaNombre.equals("Días Específicos") && reminder.getDiasRecordatorio() != null) {
+            return !reminder.getDiasRecordatorio().isEmpty();
+        }
+        return false;
+    }
+
+    private ReminderAdapter.ReminderItem createReminderItem(ReminderDetailResponse reminder, boolean isToday, String fecha) {
         String medicamentoNombre = reminder.getMedicamento().getNombre();
         String dosis = reminder.getMedicamento().getDosis_cantidad() + " " +
-                      reminder.getMedicamento().getUnidadDosis().getNombre();
+                reminder.getMedicamento().getUnidadDosis().getNombre();
 
         String tiempoTexto;
         if (isToday) {
             tiempoTexto = "Hoy, " + reminder.getHora().substring(0, 5);
         } else {
-            String fechaInicio = reminder.getFechaInicio().substring(0, 10);
-            tiempoTexto = fechaInicio + ", " + reminder.getHora().substring(0, 5);
+            tiempoTexto = fecha + ", " + reminder.getHora().substring(0, 5);
         }
-        int id = reminder.getIdRecordatorio();
-        int estado = obtenerEstadoGuardado(id);
 
         return new ReminderAdapter.ReminderItem(
                 reminder.getIdRecordatorio(),
@@ -349,43 +375,50 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
         );
     }
 
-    /*private void loadSampleData() {
-        todayReminders.add(new ReminderAdapter.ReminderItem(
-                "Paracetamol",
-                "1 pastilla",
-                "Hoy, 08:00",
-                ReminderAdapter.ESTADO_PENDIENTE));
 
-        todayReminders.add(new ReminderAdapter.ReminderItem(
-                "Ibuprofeno",
-                "1 pastilla",
-                "Hoy, 14:00",
-                ReminderAdapter.ESTADO_TOMADO));
+    private String getNextValidDate(ReminderDetailResponse reminder, String todayStr) {
+        try {
+            Calendar today = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            Date todayDate = sdf.parse(todayStr);
 
-        todayReminders.add(new ReminderAdapter.ReminderItem(
-                "Vitamina C",
-                "1 cápsula",
-                "Ayer, 21:00",
-                ReminderAdapter.ESTADO_PERDIDO));
+            Calendar candidate = Calendar.getInstance();
+            candidate.setTime(todayDate);
+            candidate.add(Calendar.DATE, 1); // empezar con mañana
 
-        futureReminders.add(new ReminderAdapter.ReminderItem(
-                "Amoxicilina",
-                "1 cápsula",
-                "Mañana, 09:00",
-                ReminderAdapter.ESTADO_PENDIENTE));
+            Date endDate = sdf.parse(reminder.getFechaFin().substring(0, 10));
+            String frecuenciaNombre = reminder.getFrecuencia().getNombre();
 
-        if (todayAdapter != null) {
-            todayAdapter.notifyDataSetChanged();
+            while (!candidate.getTime().after(endDate)) {
+                if (frecuenciaNombre.equals("Todos los Días")) {
+                    return dateFormatter.format(candidate.getTime());
+                } else if (frecuenciaNombre.equals("Días Específicos")) {
+                    int dayOfWeek = candidate.get(Calendar.DAY_OF_WEEK);
+                    int ourDayFormat = (dayOfWeek + 5) % 7;
+                    if (reminder.getDiasRecordatorio() != null) {
+                        for (ReminderDetailResponse.DiaRecordatorioResponse dia : reminder.getDiasRecordatorio()) {
+                            if (dia.getDia() == ourDayFormat) {
+                                return dateFormatter.format(candidate.getTime());
+                            }
+                        }
+                    }
+                }
+                candidate.add(Calendar.DATE, 1);
+            }
+
+            // Si no encontró ninguno, usa la fechaFin como fallback
+            return dateFormatter.format(endDate);
+        } catch (Exception e) {
+            Log.e("DashboardActivity", "Error calculating next valid date", e);
+            return reminder.getFechaFin().substring(0, 10);
         }
-        if (futureAdapter != null) {
-            futureAdapter.notifyDataSetChanged();
-        }
-    }*/
+    }
 
     @Override
     public void onConfirmReminder(int position) {
         ReminderAdapter.ReminderItem reminder = todayReminders.get(position);
-        reminder.marcarComoTomado(this);
+        String fecha = reminder.extraerFecha();
+        reminder.marcarComoTomado(this, fecha);
 
         ReminderAdapter.ReminderItem backup = reminder;
         todayReminders.remove(position);
@@ -393,7 +426,7 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
 
         Snackbar.make(todayRemindersList, "✅ Medicamento Tomado!!!", Snackbar.LENGTH_LONG)
                 .setAction("Deshacer", v -> {
-                    backup.deshacerEstado(this);
+                    backup.deshacerEstado(this, fecha);
                     todayReminders.add(position, backup);
                     todayAdapter.notifyItemInserted(position);
                 }).show();
@@ -402,15 +435,16 @@ public class DashboardActivity extends AppCompatActivity implements ReminderAdap
     @Override
     public void onCancelReminder(int position) {
         ReminderAdapter.ReminderItem reminder = todayReminders.get(position);
-        reminder.marcarComoPerdido(this);
+        String fecha = reminder.extraerFecha();
+        reminder.marcarComoPerdido(this, fecha);
 
         ReminderAdapter.ReminderItem backup = reminder;
         todayReminders.remove(position);
         todayAdapter.notifyItemRemoved(position);
 
-        Snackbar.make(todayRemindersList, "⚠️ Recordatorio Cancelado", Snackbar.LENGTH_LONG)
+        Snackbar.make(todayRemindersList, "⚠️ Recordatorio Perdido", Snackbar.LENGTH_LONG)
                 .setAction("Deshacer", v -> {
-                    backup.deshacerEstado(this);
+                    backup.deshacerEstado(this, fecha);
                     todayReminders.add(position, backup);
                     todayAdapter.notifyItemInserted(position);
                 }).show();

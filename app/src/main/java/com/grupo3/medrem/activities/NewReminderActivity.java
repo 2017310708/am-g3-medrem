@@ -30,9 +30,11 @@ import com.grupo3.medrem.utils.LanguageHelper;
 import com.grupo3.medrem.utils.PreferenceManager;
 import com.grupo3.medrem.viewmodels.ReminderViewModel;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -302,7 +304,7 @@ public class NewReminderActivity extends AppCompatActivity {
     private void onSaveClick() {
         User usuarioActual = preferenceManager.getUser();
         if (usuarioActual == null || usuarioActual.getIdUsuario() == 0) {
-            Toast.makeText(this, "Usuario no encontrado en sesión", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -315,6 +317,20 @@ public class NewReminderActivity extends AppCompatActivity {
         String fechaFin = endDateEditText.getText().toString().trim();
         if (fechaInicio.isEmpty() || fechaFin.isEmpty()) {
             Toast.makeText(this, "Por favor ingresa la fecha de inicio y fin", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            Date startDate = sdf.parse(fechaInicio);
+            Date endDate = sdf.parse(fechaFin);
+
+            if (endDate.before(startDate)) {
+                Toast.makeText(this, "La fecha de fin no puede ser anterior a la fecha de inicio", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (ParseException e) {
+            Toast.makeText(this, "Formato de fecha inválido.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -340,7 +356,7 @@ public class NewReminderActivity extends AppCompatActivity {
         );
 
         reminderViewModel.saveReminder(request, obtenerDiasSeleccionados());
-        Toast.makeText(this, "Recordatorio programado exitosamente", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.new_reminder_created), Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(NewReminderActivity.this, DashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

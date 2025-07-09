@@ -96,6 +96,7 @@
     <string name="new_reminder_day_friday">F</string>
     <string name="new_reminder_day_saturday">S</string>
     <string name="new_reminder_day_sunday">S</string>
+    <string name="new_reminder_created">Reminder successfully scheduled</string>
 
     <!-- Terms and Conditions Activity -->
     <string name="terms_title">Terms and Conditions</string>

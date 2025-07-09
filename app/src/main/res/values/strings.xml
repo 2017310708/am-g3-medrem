@@ -96,6 +96,7 @@
     <string name="new_reminder_day_friday">V</string>
     <string name="new_reminder_day_saturday">S</string>
     <string name="new_reminder_day_sunday">D</string>
+    <string name="new_reminder_created">Recordatorio programado exitosamente</string>
 
     <!-- Configuración -->
     <string name="settings_title">Configuración</string>

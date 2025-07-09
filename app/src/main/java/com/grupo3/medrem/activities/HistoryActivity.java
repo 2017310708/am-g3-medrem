@@ -121,7 +121,8 @@ public class HistoryActivity extends AppCompatActivity {
 
         for (ReminderDetailResponse reminder : reminders) {
             int idRecordatorio = reminder.getIdRecordatorio();
-            int estadoGuardado = obtenerEstadoGuardado(idRecordatorio);
+            String fecha = reminder.getFechaInicio().substring(0, 10);
+            int estadoGuardado = obtenerEstadoGuardado(idRecordatorio, fecha);
 
             if (estadoGuardado != ReminderAdapter.ESTADO_TOMADO && estadoGuardado != ReminderAdapter.ESTADO_PERDIDO) {
                 continue;
@@ -138,8 +139,6 @@ public class HistoryActivity extends AppCompatActivity {
                     reminder.getMedicamento().getUnidadDosis().getNombre();
             String fechaCompleta = reminder.getFechaInicio().substring(0, 10) + " " + reminder.getHora().substring(0, 5);
 
-
-
             historyList.add(new ReminderAdapter.ReminderItem(
                     reminder.getIdRecordatorio(),
                     medicamento,
@@ -150,12 +149,13 @@ public class HistoryActivity extends AppCompatActivity {
             ));
         }
         adapter.notifyDataSetChanged();
+    }
 
-    }
-    private int obtenerEstadoGuardado(int idRecordatorio) {
+    private int obtenerEstadoGuardado(int idRecordatorio, String fecha) {
         SharedPreferences prefs = getSharedPreferences("recordatorio_estados", MODE_PRIVATE);
-        return prefs.getInt("estado_" + idRecordatorio, ReminderAdapter.ESTADO_PENDIENTE);
+        return prefs.getInt("estado_" + idRecordatorio + "_" + fecha, ReminderAdapter.ESTADO_PENDIENTE);
     }
+
     private void updateFilterUI() {
         int selectedColor = ContextCompat.getColor(this, R.color.select);
         int takenDefault = ContextCompat.getColor(this, R.color.colorTaken);
