@@ -1,8 +1,10 @@
 package com.grupo3.medrem.activities;
 
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +20,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import android.content.pm.PackageManager;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.grupo3.medrem.R;
 import com.grupo3.medrem.data.dto.request.NewReminderRequest;
@@ -37,6 +42,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import android.app.AlarmManager;
+import android.content.Context;
+import android.provider.Settings;
 
 public class NewReminderActivity extends AppCompatActivity {
 
@@ -60,6 +69,8 @@ public class NewReminderActivity extends AppCompatActivity {
     private SimpleDateFormat dateFormatter;
     private List<Medicamento> medicamentoList = new ArrayList<>();
     private Medicamento selectedMedicamento;
+
+    private static final int REQUEST_POST_NOTIFICATIONS_PERMISSION = 1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -302,6 +313,31 @@ public class NewReminderActivity extends AppCompatActivity {
     }
 
     private void onSaveClick() {
+
+        // Verifica permiso de notificaciones
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS},
+                        REQUEST_POST_NOTIFICATIONS_PERMISSION
+                );
+                Toast.makeText(this, "Debes permitir las notificaciones para recibir las alertas", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
+        //verifica permiso SCHEDULE_EXACT_ALARM
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            if (!alarmManager.canScheduleExactAlarms()) {
+                Toast.makeText(this, "Debes permitir alarmas exactas para programar recordatorios", Toast.LENGTH_LONG).show();
+                openScheduleExactAlarmPermissionSettings();
+                return;
+            }
+        }
+
         User usuarioActual = preferenceManager.getUser();
         if (usuarioActual == null || usuarioActual.getIdUsuario() == 0) {
             Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
@@ -355,6 +391,16 @@ public class NewReminderActivity extends AppCompatActivity {
                 fechaInicio, fechaFin, hora, notas
         );
 
+        // se programan las alarmas
+        programarAlarmasLocales(
+                fechaInicio, fechaFin, hora,
+                frecuenciaSeleccionada.getNombre(),
+                obtenerDiasSeleccionados(),
+                selectedMedicamento.getNombre(),
+                selectedMedicamento.getDosis_cantidad() + " " + selectedMedicamento.getUnidadDosis().getNombre(),
+                notas
+        );
+
         reminderViewModel.saveReminder(request, obtenerDiasSeleccionados());
         Toast.makeText(this, getString(R.string.new_reminder_created), Toast.LENGTH_SHORT).show();
 
@@ -362,5 +408,109 @@ public class NewReminderActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+    }
+
+    private void programarAlarmasLocales(
+            String fechaInicio, String fechaFin, String hora,
+            String frecuenciaNombre, List<Integer> diasSeleccionados,
+            String medicamento, String dosis, String notas
+    ) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            Calendar start = Calendar.getInstance();
+            start.setTime(dateFormat.parse(fechaInicio));
+            Calendar end = Calendar.getInstance();
+            end.setTime(dateFormat.parse(fechaFin));
+
+            String[] horaParts = hora.split(":");
+            int hour = Integer.parseInt(horaParts[0]);
+            int minute = Integer.parseInt(horaParts[1]);
+
+            while (!start.after(end)) {
+                int dayOfWeek = start.get(Calendar.DAY_OF_WEEK);
+                int appDayIndex = (dayOfWeek + 5) % 7;
+
+                boolean debeProgramar = false;
+                if (frecuenciaNombre.equals("Todos los Días")) {
+                    debeProgramar = true;
+                } else if (frecuenciaNombre.equals("Días Específicos")) {
+                    if (diasSeleccionados.contains(appDayIndex)) {
+                        debeProgramar = true;
+                    }
+                }
+
+                if (debeProgramar) {
+                    Calendar alarmaTime = (Calendar) start.clone();
+                    alarmaTime.set(Calendar.HOUR_OF_DAY, hour);
+                    alarmaTime.set(Calendar.MINUTE, minute);
+                    alarmaTime.set(Calendar.SECOND, 0);
+
+                    programarAlarmaEnDispositivo(alarmaTime.getTimeInMillis(), medicamento, dosis, notas);
+                }
+
+                start.add(Calendar.DATE, 1);
+            }
+        } catch (Exception e) {
+            Log.e("NewReminderActivity", "Error al programar alarmas locales", e);
+        }
+    }
+
+    private void programarAlarmaEnDispositivo(long triggerAtMillis, String medicamento, String dosis, String notas) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        if (alarmManager == null) {
+            Log.e("NewReminderActivity", "AlarmManager es null");
+            return;
+        }
+
+        String fechaHoraAlarma = new Date(triggerAtMillis).toString();
+        Log.d("NewReminderActivity", "Programando alarma para: " + fechaHoraAlarma);
+
+        Intent intent = new Intent(this, com.grupo3.medrem.receivers.ReminderAlarmReceiver.class);
+        intent.putExtra("medicamento", medicamento);
+        intent.putExtra("dosis", dosis);
+        intent.putExtra("notas", notas);
+
+        int requestCode = (int) (triggerAtMillis % Integer.MAX_VALUE);
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            flags |= PendingIntent.FLAG_IMMUTABLE;
+        }
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                requestCode,
+                intent,
+                flags
+        );
+
+        try {
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    triggerAtMillis,
+                    pendingIntent
+            );
+            Log.d("NewReminderActivity", "Alarma programada para " + fechaHoraAlarma);
+
+        } catch (SecurityException e) {
+            Log.e("NewReminderActivity", "SecurityException al programar la alarma", e);
+        }
+    }
+
+    private void openScheduleExactAlarmPermissionSettings() {
+        Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_POST_NOTIFICATIONS_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permiso de notificaciones concedido.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Debe habilitar el permiso de notificaciones de la app", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
