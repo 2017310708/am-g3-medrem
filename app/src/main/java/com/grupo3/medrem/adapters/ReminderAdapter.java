@@ -15,8 +15,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.grupo3.medrem.R;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.ReminderViewHolder> {
 
@@ -66,7 +67,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         }
         holder.cardBackground.setBackgroundColor(backgroundColor);
 
-        configureStatusIndicators(holder, reminder,position);
+        configureStatusIndicators(holder, reminder, position);
     }
 
     private void configureStatusIndicators(ReminderViewHolder holder, ReminderItem reminder, int position) {
@@ -93,16 +94,18 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
                     holder.boton_confirmar.setVisibility(View.VISIBLE);
                     holder.boton_cancelar.setVisibility(View.VISIBLE);
 
+                    String fechaRecordatorio = reminder.extraerFecha();
+
                     holder.boton_confirmar.setOnClickListener(v -> {
                         if (listener != null && position != RecyclerView.NO_POSITION) {
-                            reminder.marcarComoTomado(holder.itemView.getContext());
+                            reminder.marcarComoTomado(holder.itemView.getContext(), fechaRecordatorio);
                             listener.onConfirmReminder(position);
                         }
                     });
 
                     holder.boton_cancelar.setOnClickListener(v -> {
                         if (listener != null && position != RecyclerView.NO_POSITION) {
-                            reminder.marcarComoPerdido(holder.itemView.getContext());
+                            reminder.marcarComoPerdido(holder.itemView.getContext(), fechaRecordatorio);
                             listener.onCancelReminder(position);
                         }
                     });
@@ -145,8 +148,8 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
         private int estado;
         private boolean esDeHoy;
 
-
-        public ReminderItem(int idRecordatorio, String nombre_medicamento, String dosis, String texto_tiempo, int estado,boolean esDeHoy) {
+        private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        public ReminderItem(int idRecordatorio, String nombre_medicamento, String dosis, String texto_tiempo, int estado, boolean esDeHoy) {
             this.idRecordatorio = idRecordatorio;
             this.nombre_medicamento = nombre_medicamento;
             this.dosis = dosis;
@@ -154,36 +157,38 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
             this.estado = estado;
             this.esDeHoy = esDeHoy;
         }
+
         public int getIdRecordatorio() { return idRecordatorio; }
         public String getNombre_medicamento() { return nombre_medicamento; }
         public String getDosis() { return dosis; }
         public String getTexto_tiempo() { return texto_tiempo; }
         public int getEstado() { return estado; }
 
-        public void setEstado(int estado) {
-            this.estado = estado;
-        }
-        public boolean isEsDeHoy() {
-            return esDeHoy;
-        }
+        public void setEstado(int estado) { this.estado = estado; }
+        public boolean isEsDeHoy() { return esDeHoy; }
         public void setEsDeHoy(boolean esDeHoy) { this.esDeHoy = esDeHoy; }
-        public void marcarComoTomado(Context context) {
-            context.getSharedPreferences("recordatorio_estados", Context.MODE_PRIVATE)
-                    .edit().putInt("estado_" + idRecordatorio, ESTADO_TOMADO).apply();
+
+        public String extraerFecha() {
+            if (texto_tiempo.startsWith("Hoy")) {
+                return dateFormatter.format(new java.util.Date());
+            } else {
+                return texto_tiempo.split(",")[0].trim();
+            }
         }
-        public void marcarComoPerdido(Context context) {
-            context.getSharedPreferences("recordatorio_estados", Context.MODE_PRIVATE)
-                    .edit().putInt("estado_" + idRecordatorio, ESTADO_PERDIDO).apply();
-        }
-        public void deshacerEstado(Context context) {
-            context.getSharedPreferences("recordatorio_estados", Context.MODE_PRIVATE)
-                    .edit().remove("estado_" + idRecordatorio).apply();
-        }
-        private void guardarEstado(Context context, int estado) {
+
+        public void marcarComoTomado(Context context, String fecha) {
             SharedPreferences prefs = context.getSharedPreferences("recordatorio_estados", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt("estado_" + idRecordatorio, estado);
-            editor.apply();
+            prefs.edit().putInt("estado_" + idRecordatorio + "_" + fecha, ESTADO_TOMADO).apply();
+        }
+
+        public void marcarComoPerdido(Context context, String fecha) {
+            SharedPreferences prefs = context.getSharedPreferences("recordatorio_estados", Context.MODE_PRIVATE);
+            prefs.edit().putInt("estado_" + idRecordatorio + "_" + fecha, ESTADO_PERDIDO).apply();
+        }
+
+        public void deshacerEstado(Context context, String fecha) {
+            SharedPreferences prefs = context.getSharedPreferences("recordatorio_estados", Context.MODE_PRIVATE);
+            prefs.edit().remove("estado_" + idRecordatorio + "_" + fecha).apply();
         }
     }
 }
